@@ -8,7 +8,6 @@
     $.ajax({
       url: '/change_product_quantity',
       data: {
-        // here data is passed similar to form data with name cart,product and count
         cart: cart_id,
         user: user_id,
         product: product_id,
@@ -19,11 +18,10 @@
       success: (response) => {
         if (response.product_removed) {
           alert('Product removed from cart')
-          location.reload()// to reload the page after removal of product or quantity change
-          // handle response.remove_product
+          location.reload()
+          
         }
         else {
-          //console.log('result', response)
           document.getElementById(product_id).innerHTML = quantity + count
           document.getElementById('total').innerHTML = response.total
           location.reload()//to reload the page automatically after changes

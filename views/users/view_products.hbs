@@ -27,15 +27,12 @@
         method:'get',
         success:(response)=>{
             if(response.stat){
-                //this below statement will return a string as a result parseInt is used in next statement
                 let count=$('#cart_count').html()
                 count=parseInt(count)+1
                 $("#cart_count").html(count)
-                //console.log('count added')
             }
             else{
               location.href = "/login"
-              //console.log('count not added')
 
             }
         }

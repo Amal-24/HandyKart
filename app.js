@@ -3,7 +3,7 @@ var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
-var hbs = require("express-handlebars"); //hbs is imported to set layout
+var hbs = require("express-handlebars"); 
 var fileUpload = require("express-fileupload"); //used to get files(img,pdf etc) uploaded through form submit(POST)
 var db = require("./config/db"); //importing db file from config
 var userRouter = require("./routes/user");
@@ -17,15 +17,15 @@ hbs.create({ strict:false });
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "hbs");
+
 //setting custom view engine
 app.engine(
   "hbs",
   hbs.engine({
     extname: "hbs",
-    defaultLayout: "layout",//name of layout.hbs file not layouts folder
+    defaultLayout: "layout",
     layoutDir: __dirname + "/views/layout",
-    partialDir: __dirname + "/views/partials", //__dirname is used as when we change file location the dirname will be
-    // get udated automatically
+    partialDir: __dirname + "/views/partials",
   })
 );
 

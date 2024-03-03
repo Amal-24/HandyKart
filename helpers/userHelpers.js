@@ -3,7 +3,6 @@ let db = require("../config/db");
 let collections = require("../config/db_collections");
 let bcrypt = require("bcrypt");
 const { ObjectId } = require("mongodb");
-//const { default: ObjectID } = require("bson-objectid");
 let objectId = require("mongodb").ObjectId;
 const Razorpay=require("razorpay");
 const crypto=require('crypto')
@@ -16,7 +15,6 @@ var instance = new Razorpay(
 module.exports = {
   doSignUp: (UserData) => {
     return new Promise(async (resolve, reject) => {
-      //password in encrypted before saving into database
       UserData.Password = await bcrypt.hash(UserData.Password, 10);
       db.get()
         .collection(collections.USERS)
@@ -27,7 +25,6 @@ module.exports = {
     });
   },
   doLogIn: (userData) => {
-    //console.log(userData)
     return new Promise(async (resolve, recject) => {
       let loginStatus = false;
       let response = {};
@@ -42,7 +39,6 @@ module.exports = {
           userData.Password,
           user.Password
         );
-        // in compare() first argument should be data and second should be hash. check docs(ctr on compare())
         if (!passwordEcry) {
           response.loginStatus = false;
         } else {
@@ -67,11 +63,9 @@ module.exports = {
         .collection(collections.CART)
         .findOne({ user: user_object_id });
       if (cart) {
-        //use == in product.item==product_id as === will compare the datatype also
         let product_exist = await cart.products.findIndex(
           (product) => product.item == product_id
         );
-        //console.log(product_exist);
         if (product_exist != -1) {
           let quantity_update = await db
             .get()
@@ -80,7 +74,6 @@ module.exports = {
               { user: user_object_id, "products.item": product_object_id },
               { $inc: { "products.$.quantity": 1 } }
             );
-          //console.log(quantity_update);
           resolve(quantity_update);
         } else {
           let push_new_product = await db
@@ -92,7 +85,6 @@ module.exports = {
                 $push: { products: product_object },
               }
             );
-          //console.log(push_new_product);
           resolve(push_new_product);
         }
       } else {
@@ -104,7 +96,6 @@ module.exports = {
           .get()
           .collection(collections.CART)
           .insertOne(cart_obj);
-       // console.log(create_cart);
         resolve(create_cart);
       }
     });
@@ -123,7 +114,6 @@ module.exports = {
             $unwind: "$products",
           },
           {
-            //project is similar to select product.item as item in SQL
             $project: {
               item: "$products.item",
               quantity: "$products.quantity",
@@ -158,7 +148,7 @@ module.exports = {
         .collection(collections.CART)
         .findOne({ user: user_object_id });
       if (cart) {
-        let count = await cart.products.length; //built in function to find length of array
+        let count = await cart.products.length; 
         resolve(count);
       } else { 
         resolve(0);
@@ -166,7 +156,6 @@ module.exports = {
     });
   },
   change_product_quantity: async (details) => {
-    //console.log(details);
     details.quantity = parseInt(details.quantity);
     details.count = parseInt(details.count);
     let cart_object_id = await new objectId(details.cart);
@@ -181,8 +170,7 @@ module.exports = {
             { _id: cart_object_id },
             { $pull: { products: { item: product_object_id } } }
           );
-        //resolve({ remove_product: true });
-        //response will be false if product is removed
+        
         resolve({status:false,product_removed:true})
       } else {
         let quantity_update = await db
@@ -192,9 +180,7 @@ module.exports = {
             { _id: cart_object_id, "products.item": product_object_id },
             { $inc: { "products.$.quantity": details.count } }
           );
-        // resolve(quantity_update)
         resolve({ status: true });
-        // this resolve is in obj as we need to append total in response of then in routes
       }
     });
   },
@@ -241,7 +227,7 @@ module.exports = {
           },
         ])
         .toArray();
-        resolve(total[0])//object { _id: null, total: 50000 } is returned in total[0]
+        resolve(total[0])
     });
   },
   get_product_list:(user_id)=>{
@@ -324,9 +310,9 @@ module.exports = {
   generate_razorpay:(order_id,total_amount)=>{
     return new Promise(async(resolve,reject)=>{
     var options = {
-      amount: total_amount*100,//*100 as amount will be saved in paise by razorpay 
+      amount: total_amount*100, 
       currency: "INR",
-      receipt: ""+order_id// remeber this trick of ""+order_id
+      receipt: ""+order_id
     };
     instance.orders.create(options, function(err, order) {
       if(err){
@@ -339,15 +325,13 @@ module.exports = {
     })
   },
   payment_verification:(details)=>{
-    //this function is to verify function by comparing hmc with order signature
     return new Promise((resolve,reject)=>{
-      let hmac=crypto.createHmac('sha256','AJNlFoCKb2pIORvIwl5ERT4J')// second one is razorpay secret key
+      let hmac=crypto.createHmac('sha256','AJNlFoCKb2pIORvIwl5ERT4J')
       hmac.update(details['payment[razorpay_order_id]']+'|'+details['payment[razorpay_payment_id]'])
-      hmac.digest('hex')// to convert to hex string
+      hmac.digest('hex')
       if(hmac==details['payment[razorpay_signature]']){
         resolve({status:true})
       }else{
-        //reject({status:false})
         resolve({status:false})
 
       }
