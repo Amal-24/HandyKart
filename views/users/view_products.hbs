@@ -1,0 +1,45 @@
+<section>
+    <div class="container mt-3">
+        <div class="row">
+            {{#each products}}
+            <div class="col-md-3 ">
+                <div class="card " style="width: 15rem; height: 26rem;">
+                    <img src="/product_images/{{this._id}}.jpg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">{{this.Name}}</h5>
+                        <p class="card-text">₹{{this.Price}}</p>
+                        <p class="card-text">{{this.Description}}</p>
+                        {{!-- <a href="/add_to_cart?id={{this._id}}" class="btn btn-primary">Add to cart</a> --}}
+                        <button class="btn btn-primary" onclick="add_to_cart('{{this._id}}')">Add To Cart</button>
+                    </div>
+                </div>
+            </div>
+            {{/each}}
+
+        </div>
+    </div>
+</section>
+
+<script>
+    function add_to_cart(product_id){
+    $.ajax({
+        url:'/add_to_cart?id='+product_id,
+        method:'get',
+        success:(response)=>{
+            if(response.stat){
+                //this below statement will return a string as a result parseInt is used in next statement
+                let count=$('#cart_count').html()
+                count=parseInt(count)+1
+                $("#cart_count").html(count)
+                //console.log('count added')
+            }
+            else{
+              location.href = "/login"
+              //console.log('count not added')
+
+            }
+        }
+
+    })  
+}
+</script>

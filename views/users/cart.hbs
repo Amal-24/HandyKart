@@ -1,0 +1,72 @@
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  function change_quantity(cart_id, product_id, user_id, count) {
+    let quantity = parseInt(document.getElementById(product_id).innerHTML);
+    count = parseInt(count);
+    user_id = new Object(user_id)
+
+    $.ajax({
+      url: '/change_product_quantity',
+      data: {
+        // here data is passed similar to form data with name cart,product and count
+        cart: cart_id,
+        user: user_id,
+        product: product_id,
+        count: count,
+        quantity: quantity
+      },
+      method: 'post',
+      success: (response) => {
+        if (response.product_removed) {
+          alert('Product removed from cart')
+          location.reload()// to reload the page after removal of product or quantity change
+          // handle response.remove_product
+        }
+        else {
+          //console.log('result', response)
+          document.getElementById(product_id).innerHTML = quantity + count
+          document.getElementById('total').innerHTML = response.total
+          location.reload()//to reload the page automatically after changes
+        }
+      }
+    });
+  }
+
+</script>
+<section>
+  <div class="container">
+    <table class="table mt-5">
+      <thead>
+        <tr>
+          <th scope="col">Item</th>
+          <th scope="col">Title</th>
+          <th scope="col">Price</th>
+          <th scope="col">Quantity</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each user_cart}}
+        <tr>
+          <td><img src="/product_images/{{this.product._id}}.jpg" style="width:70px; height:70px" /></td>
+          <td>{{this.product.Name}}</td>
+          <td>{{this.product.Price}}</td>
+          <td><button class="btn btn-outline-danger"
+              onclick="change_quantity('{{this._id}}','{{this.product._id}}','{{../user}}',-1)">-</button>
+            <span id="{{this.product._id}}"> {{this.quantity}}</span>
+            <button class="btn btn-outline-success"
+              onclick="change_quantity('{{this._id}}','{{this.product._id}}','{{../user}}',1)">+</button>
+          </td>
+          <td><a href="" class="btn btn-danger">Remove</a></td>
+        </tr>
+        {{/each}}
+      </tbody>
+
+    </table>
+    <div class="float-end pe-5">
+     <span id="total">Total Amount:₹{{total.total}}</span>
+     <br>    
+      <a href="/place_order" class="btn btn-success">Place Order</a>
+    </div>
+  </div>
+</section>

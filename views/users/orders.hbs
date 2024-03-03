@@ -1,0 +1,41 @@
+<section>
+    <div class="container-fluid">
+        <div class="row mt-4 ">
+            <div class="col-md-12">
+                <table class="table table-hover ml-3">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Address</th>
+                            <th scope="col">Mobile Number</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Payment Method</th>
+                            <th scope="col">Amount</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        {{#each orders}}
+                        <tr>
+                            <td>{{@index}}</td>
+                            <td>{{this.date}}</td>
+                            <td>{{this.delivery_details.address}}</td>
+                            <td>{{this.delivery_details.mobile_number}}</td>
+                            <td>{{this.status}}</td>
+                            <td>{{this.payment_method}}</td>
+                            <td> ₹{{this.total_amount}}</td>
+                            <td>
+                                <a href="/view_ordered_products?id={{this._id}}" class="btn btn-primary">View
+                                    Products</a>
+                            </td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</section>
