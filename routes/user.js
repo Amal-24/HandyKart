@@ -75,17 +75,20 @@ router.get("/cart", verifyLogin, async (req, res, next) => {
   let total = 0;
   if (user_cart != []) {
     total = await userHelpers.total_amount(req.session.user._id);
-  } else {
+  }
+  else {
     total = 0;
   }
   if (req.session.user) {
     cart_count = await userHelpers.cart_count(req.session.user._id);
-  } else {
+  }
+   else {
     cart_count = 0;
   }
+  let user=req.session.user._id
   res.render("users/cart", {
     user_cart,
-    user: req.session.user._id,
+    user,
     cart_count,
     total,
   });
@@ -100,17 +103,17 @@ router.get("/add_to_cart", verifyLogin, (req, res) => {
 
 router.post("/change_product_quantity", async (req, res) => {
   let qty = await userHelpers.change_product_quantity(req.body);
-  let total_amount = 0;
   if (qty.status == true) {
-    total_amount = await userHelpers.total_amount(req.body.user);
+    let total_amount = await userHelpers.total_amount(req.body.user);
     qty.total = total_amount.total;
   }
   res.json(qty);
 });
 
-router.get("/view_account", (req, res) => {
+router.get("/view_account",async (req, res) => {
+  let cart_count = await userHelpers.cart_count(req.session.user._id);
   let user = req.session.user;
-  res.render("users/view_user_account", { user });
+  res.render("users/view_user_account", { user,cart_count:cart_count });
 });
 
 router.get("/place_order", verifyLogin, async (req, res) => {
@@ -143,12 +146,15 @@ router.get("/order_success", (req, res) => {
 
 router.get("/orders", verifyLogin, async (req, res) => {
   let orders = await userHelpers.orders_of_user(req.session.user._id);
-  res.render("users/orders", { orders, user: req.session.user });
+  let cart_count = await userHelpers.cart_count(req.session.user._id);
+  res.render("users/orders", { orders, user: req.session.user,cart_count:cart_count });
 });
 router.get("/view_ordered_products", async (req, res) => {
   let order_id = req.query.id;
   let products = await userHelpers.ordered_products_list(order_id);
+  let cart_count = await userHelpers.cart_count(req.session.user._id);
   res.render("users/view_ordered_products", {
+    cart_count:cart_count,
     user: req.session.user,
     products,
   }); 

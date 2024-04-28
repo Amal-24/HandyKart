@@ -24,7 +24,7 @@ app.engine(
   hbs.engine({
     extname: "hbs",
     defaultLayout: "layout",
-    layoutDir: __dirname + "/views/layout",
+    layoutDir: __dirname + "/views/layouts",
     partialDir: __dirname + "/views/partials",
   })
 );
@@ -50,7 +50,7 @@ db.connect()
 
 
 //connecting express-session npm
-app.use(session({secret:'key',cookie:{maxAge:180 * 60 * 1000},saveUninitialized: true,resave: true}))
+app.use(session({secret:'key',cookie:{maxAge:180 * 60 * 1000},saveUninitialized: true,resave: true}));
 
 app.use("/", userRouter);
 app.use("/admin", adminRouter);
