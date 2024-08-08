@@ -349,5 +349,12 @@ module.exports = {
     })
 
   },
-
+  remove_product:(cart_id,product_id)=>{
+    return new Promise(async(resolve,reject)=>{
+      let cart_obj_id= new objectId(cart_id)
+      console.log('355',cart_obj_id)
+      let products_array = await db.get().collection(collections.CART).find({_id:cart_obj_id});
+      resolve(products_array)
+    })
+  },
 };

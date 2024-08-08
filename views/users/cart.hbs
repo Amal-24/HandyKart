@@ -55,7 +55,7 @@
             <button class="btn btn-outline-success"
               onclick="change_quantity('{{this._id}}','{{this.product._id}}','{{../user}}',1)">+</button>
           </td>
-          <td><a href="" class="btn btn-danger">Remove</a></td>
+          <td><a href="/remove_product?cart_id={{this._id}}&&product_id={{this.product._id}}" class="btn btn-danger">Remove</a></td>
         </tr>
         {{/each}}
       </tbody>

@@ -172,4 +172,15 @@ router.post('/verify_payment',async(req,res)=>{
   }
 })
 
+
+
+router.get('/remove_product',async(req,res)=>{
+  let product_id= req.query.product_id
+  let cart_id= req.query.cart_id
+  console.log('180',product_id,cart_id)
+  let products_array= await userHelpers.remove_product(cart_id,product_id);
+  console.log(products_array);
+  res.send("product removed")
+})
+
 module.exports = router;
