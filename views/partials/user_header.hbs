@@ -1,56 +1,64 @@
 <header class="">
-    <nav class="navbar navbar-expand-lg bg-body-secondary">
+  <nav class="navbar navbar-expand-lg bg-body-secondary">
         <div class="container-fluid ">
-            <a class="navbar-brand" href="/">E-KART</a>
+      <a class="navbar-brand" href="/">E-KART</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/">Home</a>
-                    </li>
-                    <li class="nav-item">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/">Home</a>
+          </li>
+          <li class="nav-item">
                         <a class="nav-link active" href="/cart">Cart<span class=" badge rounded-pill bg-primary"
                         id="cart_count">
-                                {{cart_count}}
-                            </span></a>
-                    </li>
-                    {{#if user}}
-                    <li class="nav-item">
-                        <a class="nav-link active" href="/orders">Orders</a>
-                    </li>
-                    {{/if}}
+                {{cart_count}}
+              </span></a>
+          </li>
+          {{#if user}}
+            <li class="nav-item">
+              <a class="nav-link active" href="/orders">Orders</a>
+            </li>
+          {{/if}}
 
-                </ul>
+        </ul>
                 <div class="btn-group dropstart">
-                    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
+                    <button type="button" class="btn btn-primary dropdown-toggle rounded-pill" data-bs-toggle="dropdown"
                         aria-expanded="false">
-                        {{#if user}}
+          {{#if user}}
                         {{user.Name}}
-                        {{else}}
+           {{else}}
                         Account
-                        {{/if}}
-                    </button>
-                    <ul class="dropdown-menu">
-                        {{#if user}}
-                        <li><a class="dropdown-item" href="/view_account">View Account</a></li>
+           {{/if}} 
+          </button>
+          <ul class="dropdown-menu">
+            {{#if user}}
+              <li><a class="dropdown-item" href="/view_account">View Account</a></li>
                         <li><a class="dropdown-item" style="color: red;" href="/logout">Logout</a></li>
-                        {{else}}
-                        <li><a class="dropdown-item" href="/login">Login</a></li>
-                        <li><a class="dropdown-item" href="/signup">Signup</a></li>
+            {{else}}
+              <li><a class="dropdown-item" href="/login">Login</a></li>
+              <li><a class="dropdown-item" href="/signup">Signup</a></li>
 
 
-                        {{/if}}
+            {{/if}}
 
 
-                    </ul>
-                </div>
-
-            </div>
-
+          </ul>
+          {{#if user}}
+          <button class="btn btn-primary rounded-pill">
+            {{#if isMale}}
+            <img class="h-6 w-6" src="avatar/male_avatar.png" alt=""></button>
+           {{else}}
+                 <img class="h-6 w-6" src="avatar/female_avatar.png" alt=""></button>
+           {{/if}} 
+          {{/if}} 
         </div>
-    </nav>
+
+      </div>
+
+    </div>
+  </nav>
 </header>
