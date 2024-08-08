@@ -183,4 +183,8 @@ router.get('/remove_product',async(req,res)=>{
   res.send("product removed")
 })
 
+router.get('/test',(req,res)=>{
+  res.render("users/test")
+})
+
 module.exports = router;
