@@ -1,6 +1,7 @@
 var express = require("express");
 var productHelpers = require("../helpers/productHelpers");
 const userHelpers = require("../helpers/userHelpers");
+let objectId = require("mongodb").ObjectId;
 var router = express.Router();
 
 const verifyLogin = (req, res, next) => {
@@ -161,6 +162,7 @@ router.get("/orders", verifyLogin, async (req, res) => {
 router.get("/view_ordered_products", async (req, res) => {
   let order_id = req.query.id;
   let products = await userHelpers.ordered_products_list(order_id);
+  console.log('u 164 ',products)
   let cart_count = await userHelpers.cart_count(req.session.user._id);
   res.render("users/view_ordered_products", {
     cart_count:cart_count,
@@ -186,10 +188,19 @@ router.post('/verify_payment',async(req,res)=>{
 router.get('/remove_product',async(req,res)=>{
   let product_id= req.query.product_id
   let cart_id= req.query.cart_id
-  console.log('180',product_id,cart_id)
-  let products_array= await userHelpers.remove_product(cart_id,product_id);
-  console.log(products_array);
-  res.send("product removed")
+  let products_array= await userHelpers.remove_product(cart_id);
+  let i=0;
+  for(i=0;i<products_array.length;i++){
+    if(products_array[i].item==product_id){
+      products_array.splice(i,1);
+    }
+  }
+  //console.log(products_array)
+  let updation= userHelpers.update_cart(cart_id,products_array).then((result)=>{
+    res.redirect('/cart')
+  }).catch((err)=>{
+    alert(err)
+  });
 })
 
 
@@ -216,15 +227,7 @@ router.get('/test',async(req,res)=>{
   } else {
     cart_count = 0;
   }
-  productHelpers.viewProduct().then((products) => {
-    res.render("users/test", {
-      admin: false,
-      products,
-      user,
-      cart_count,
-      isMale
-    });
-  });
+  let products = await userHelpers.remove_product()
 })
 
 module.exports = router;

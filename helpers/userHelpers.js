@@ -263,7 +263,7 @@ module.exports = {
     return new Promise(async(resolve,reject)=>{
       let user_object_id= await new objectId(user_id) 
       let orders=db.get().collection(collections.ORDERS).find({user:user_object_id}).toArray()
-      console.log('userhelper 274',orders);
+      //console.log('userhelper 274',orders);
       resolve(orders)
     })
   },
@@ -303,6 +303,7 @@ module.exports = {
           },
         ])
         .toArray();
+      console.log('uh 306',products);  
       resolve(products);
       
     })
@@ -349,12 +350,24 @@ module.exports = {
     })
 
   },
-  remove_product:(cart_id,product_id)=>{
-    return new Promise(async(resolve,reject)=>{
+  remove_product:(cart_id)=>{
+    return new Promise((resolve,reject)=>{
       let cart_obj_id= new objectId(cart_id)
-      console.log('355',cart_obj_id)
-      let products_array = await db.get().collection(collections.CART).find({_id:cart_obj_id});
-      resolve(products_array)
+      db.get().collection(collections.CART).aggregate([{$match:{_id:cart_obj_id}},
+        {$project:{products:1}}]).toArray()
+        .then((result)=>{
+          resolve(result[0].products)
+        })
     })
   },
+  update_cart:(cart_id,newproducts)=>{
+    return new Promise(async(resolve,reject)=>{
+      let cart_obj_id= new objectId(cart_id)
+      db.get().collection(collections.CART).updateOne({_id:cart_obj_id},{$set:{products:newproducts}})
+      .then((result)=>{
+        resolve(true);
+      })
+    })
+
+  }
 };
