@@ -192,8 +192,39 @@ router.get('/remove_product',async(req,res)=>{
   res.send("product removed")
 })
 
-router.get('/test',(req,res)=>{
-  res.render("users/test")
+
+router.get('/search',(req,res)=>{
+  res.send('seacrh')
+})
+
+
+
+router.get('/test',async(req,res)=>{
+
+  let user = req.session.user;
+  let cart_count = null;
+  let isMale=false;
+
+  if (req.session.user) {
+    cart_count = await userHelpers.cart_count(req.session.user._id);
+    if(req.session.user.Gender=="Male"){
+     isMale=true
+    }
+    else{
+      isMale=false
+    }
+  } else {
+    cart_count = 0;
+  }
+  productHelpers.viewProduct().then((products) => {
+    res.render("users/test", {
+      admin: false,
+      products,
+      user,
+      cart_count,
+      isMale
+    });
+  });
 })
 
 module.exports = router;
