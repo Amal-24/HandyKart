@@ -1,25 +1,134 @@
 <section>
-    
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  function change_quantity(cart_id, product_id, user_id, count) {
+    let quantity = parseInt(document.getElementById(product_id).innerHTML);
+    count = parseInt(count);
+    user_id = new Object(user_id)
 
-    <form class="flex items-center max-w-lg mx-auto" action="/search">   
-        <label for="voice-search" class="sr-only">Search</label>
-        <div class="relative w-full">
-            <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 21 21">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.15 5.6h.01m3.337 1.913h.01m-6.979 0h.01M5.541 11h.01M15 15h2.706a1.957 1.957 0 0 0 1.883-1.325A9 9 0 1 0 2.043 11.89 9.1 9.1 0 0 0 7.2 19.1a8.62 8.62 0 0 0 3.769.9A2.013 2.013 0 0 0 13 18v-.857A2.034 2.034 0 0 1 15 15Z"/>
-                </svg>
+    $.ajax({
+      url: '/change_product_quantity',
+      data: {
+        cart: cart_id,
+        user: user_id,
+        product: product_id,
+        count: count,
+        quantity: quantity
+      },
+      method: 'post',
+      success: (response) => {
+        if (response.product_removed) {
+          alert('Product removed from cart')
+          location.reload()
+          
+        }
+        else {
+          document.getElementById(product_id).innerHTML = quantity + count
+          document.getElementById('total').innerHTML = response.total
+          location.reload()//to reload the page automatically after changes
+        }
+      }
+    });
+  }
+
+</script>
+<section class="h-100 h-custom " style="background-color: white">
+        <div class="container py-5 h-100">
+          <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-12">
+              <div class="card card-registration card-registration-2 " style="border-radius 15px;">
+                <div class="card-body p-0">
+                  <div class="row g-0">
+                    <div class="col-lg-8">
+                      <div class="p-5">
+                        {{#each user_cart}}
+                        <div class="row mb-4 d-flex justify-content-between align-items-center">
+                          <div class="col-md-2 col-lg-2 col-xl-2">
+                            <img
+                              src="/product_images/{{this.product._id}}.jpg"
+                              class="img-fluid rounded-3" alt="Cotton T-shirt">
+                          </div>
+                          <div class="col-md-3 col-lg-3 col-xl-3">
+                            <h6 class="text-muted">{{this.product.Category}}</h6>
+                            <h6 class="mb-0">{{this.product.Name}}</h6>
+                          </div>
+                          <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
+                            <button class="btn btn-outline-danger"
+              onclick="change_quantity('{{this._id}}','{{this.product._id}}','{{../user}}',-1)">-</button>
+      
+                                        <span id="{{this.product._id}}">{{this.quantity}}</span>
+
+      
+                            <button class="btn btn-outline-success"
+              onclick="change_quantity('{{this._id}}','{{this.product._id}}','{{../user}}',1)">+</button>
+
+                          </div>
+                          <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+                            <h6 class="mb-0">₹ {{this.product.Price}}</h6>
+                          </div>
+                          <div class="col-md-1 col-lg-1 col-xl-1 text-end">
+                            <a href="/remove_product?cart_id={{this._id}}&&product_id={{this.product._id}}"  
+                            class="btn btn-danger">X</a>
+                          </div>
+                        </div>
+      
+                        <hr class="my-4">
+                        {{/each}}
+                        <div class="pt-5">
+                          <h6 class="mb-0"><a href="/" class="text-body"><i
+                                class="fas fa-long-arrow-alt-left me-2"></i>Back to shop</a></h6>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-4 bg-body-tertiary rounded">
+                      <div class="p-5">
+                        <h3 class="fw-bold mb-5 mt-2 pt-1">Summary</h3>
+                        <hr class="my-4">
+      
+                        <div class="d-flex justify-content-between mb-4">
+                          <h5 class="text-uppercase">items </h5>
+                          <h5 id="total">₹ {{total.total}} </h5>
+                        </div>
+                        <!--
+                        <h5 class="text-uppercase mb-3">Shipping</h5>
+                        <div class="mb-4 pb-2">
+                          <select data-mdb-select-init>
+                            <option value="1">Standard-Delivery- €5.00</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
+                            <option value="4">Four</option>
+                          </select>
+                        </div> -->
+      
+                        <h5 class="text-uppercase mb-3">Give code</h5>
+      
+                        <div class="mb-5">
+                          <div data-mdb-input-init class="form-outline">
+                            <input type="text" id="form3Examplea2" class="form-control form-control-lg" />
+                            <label class="form-label" for="form3Examplea2">Enter your code</label>
+                          </div>
+                        </div>
+      
+                        <hr class="my-4">
+      
+                        <div class="d-flex justify-content-between mb-5">
+                          <h5 class="text-uppercase">Total price</h5>
+                          <h5 id="total">₹ {{total.total}} </h5>
+                        </div>
+      
+                       
+                        <a href="/place_order" class="btn btn-success">Place Order</a>
+      
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <input type="text" id="voice-search" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search Mockups, Logos, Design Templates..." required />
-            <button type="button" class="absolute inset-y-0 end-0 flex items-center pe-3">
-                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 20">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7v3a5.006 5.006 0 0 1-5 5H6a5.006 5.006 0 0 1-5-5V7m7 9v3m-3 0h6M7 1h2a3 3 0 0 1 3 3v5a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V4a3 3 0 0 1 3-3Z"/>
-                </svg>
-            </button>
+          </div>
         </div>
-        <button type="submit" class="inline-flex items-center py-2.5 px-3 ms-2 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-            <svg class="w-4 h-4 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-            </svg>Search
-        </button>
-    </form>
+      </section>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
+integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" 
+crossorigin="anonymous"></script>
 </section>

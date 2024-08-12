@@ -3,6 +3,7 @@ var productHelpers = require("../helpers/productHelpers");
 const userHelpers = require("../helpers/userHelpers");
 let objectId = require("mongodb").ObjectId;
 var router = express.Router();
+let notifier=require('node-notifier')
 
 const verifyLogin = (req, res, next) => {
   if (req.session.userLoggedIn) {
@@ -186,6 +187,7 @@ router.post('/verify_payment',async(req,res)=>{
 
 
 router.get('/remove_product',async(req,res)=>{
+  notifier.notify({title:"Product Removed",message:'Product removed successfully'})
   let product_id= req.query.product_id
   let cart_id= req.query.cart_id
   let products_array= await userHelpers.remove_product(cart_id);
@@ -195,8 +197,7 @@ router.get('/remove_product',async(req,res)=>{
       products_array.splice(i,1);
     }
   }
-  //console.log(products_array)
-  let updation= userHelpers.update_cart(cart_id,products_array).then((result)=>{
+  userHelpers.update_cart(cart_id,products_array).then((result)=>{
     res.redirect('/cart')
   }).catch((err)=>{
     alert(err)
@@ -210,24 +211,30 @@ router.get('/search',(req,res)=>{
 
 
 
-router.get('/test',async(req,res)=>{
-
-  let user = req.session.user;
+router.get('/test',verifyLogin,async(req,res)=>{
+  let user_cart = await userHelpers.get_cart_products(req.session.user._id);
   let cart_count = null;
-  let isMale=false;
-
+  let total = 0;
+  if (user_cart != []) {
+    total = await userHelpers.total_amount(req.session.user._id);
+  }
+  else {
+    total = 0;
+  }
   if (req.session.user) {
     cart_count = await userHelpers.cart_count(req.session.user._id);
-    if(req.session.user.Gender=="Male"){
-     isMale=true
-    }
-    else{
-      isMale=false
-    }
-  } else {
+  }
+   else {
     cart_count = 0;
   }
-  let products = await userHelpers.remove_product()
+  let user=req.session.user._id
+ 
+  res.render('users/test',{
+    user_cart,
+    user,
+    cart_count,
+    total,
+  })
 })
 
 module.exports = router;
