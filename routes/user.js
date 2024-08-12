@@ -32,6 +32,7 @@ router.get("/", async function (req, res, next) {
   productHelpers.viewProduct().then((products) => {
     res.render("users/view_products", {
       admin: false,
+      style:'product_card.css',
       products,
       user,
       cart_count,
@@ -118,7 +119,7 @@ router.post("/change_product_quantity", async (req, res) => {
     let total_amount = await userHelpers.total_amount(req.body.user);
     qty.total = total_amount.total;
   }
-  res.json(qty);
+  res.json(qty); 
 });
 
 router.get("/view_account",async (req, res) => {
@@ -212,29 +213,31 @@ router.get('/search',(req,res)=>{
 
 
 router.get('/test',verifyLogin,async(req,res)=>{
-  let user_cart = await userHelpers.get_cart_products(req.session.user._id);
+  let user = req.session.user;
   let cart_count = null;
-  let total = 0;
-  if (user_cart != []) {
-    total = await userHelpers.total_amount(req.session.user._id);
-  }
-  else {
-    total = 0;
-  }
+  let isMale=false;
+
   if (req.session.user) {
     cart_count = await userHelpers.cart_count(req.session.user._id);
-  }
-   else {
+    if(req.session.user.Gender=="Male"){
+     isMale=true
+    }
+    else{
+      isMale=false
+    } 
+  } else { 
     cart_count = 0;
   }
-  let user=req.session.user._id
- 
-  res.render('users/test',{
-    user_cart,
-    user,
-    cart_count,
-    total,
-  })
+  productHelpers.viewProduct().then((products) => {
+    res.render("users/test", {
+      admin: false,
+      style:'product_card.css',
+      products,  
+      user,
+      cart_count,
+      isMale
+    });
+  });
 })
 
 module.exports = router;
