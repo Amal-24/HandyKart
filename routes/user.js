@@ -108,8 +108,10 @@ router.get("/cart", verifyLogin, async (req, res, next) => {
 
 router.get("/add_to_cart", verifyLogin, (req, res) => {
   let product_id = req.query.id;
+  console.log('u 111 ',product_id)
   let user_id = req.session.user._id;
   userHelpers.add_to_cart(product_id, user_id).then((result) => {
+    console.log('u 113',result)
     res.json({ stat: true }); })
 });
 
@@ -205,6 +207,16 @@ router.get('/remove_product',async(req,res)=>{
   });
 })
 
+router.get('/product_details',verifyLogin,(req,res)=>{
+  userHelpers.get_product_details(req.query.product_id).then((response)=>{
+    res.render('users/product_details',{
+      user:req.session.user._id,
+      product:response,
+      style:'product_details.css'
+    })
+  })
+})
+
 
 router.get('/search',(req,res)=>{
   res.send('seacrh')
@@ -231,7 +243,7 @@ router.get('/test',verifyLogin,async(req,res)=>{
   productHelpers.viewProduct().then((products) => {
     res.render("users/test", {
       admin: false,
-      style:'product_card.css',
+      style:'product_details.css',
       products,  
       user,
       cart_count,

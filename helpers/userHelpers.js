@@ -369,5 +369,13 @@ module.exports = {
       })
     })
 
+  },
+  get_product_details:(product_id)=>{
+   return new Promise((resolve,reject)=>{
+    product_id=new objectId(product_id)
+    db.get().collection(collections.PRODUCT).findOne({_id:product_id}).then((response)=>{
+      resolve(response)
+    })
+   })
   }
 };
