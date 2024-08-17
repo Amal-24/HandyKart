@@ -108,10 +108,8 @@ router.get("/cart", verifyLogin, async (req, res, next) => {
 
 router.get("/add_to_cart", verifyLogin, (req, res) => {
   let product_id = req.query.id;
-  console.log('u 111 ',product_id)
   let user_id = req.session.user._id;
   userHelpers.add_to_cart(product_id, user_id).then((result) => {
-    console.log('u 113',result)
     res.json({ stat: true }); })
 });
 
@@ -132,8 +130,18 @@ router.get("/view_account",async (req, res) => {
 
 router.get("/place_order", verifyLogin, async (req, res) => {
   let user = req.session.user;
-  let total = await userHelpers.total_amount(user._id);
-  res.render("users/place_order", { user, total });
+  let condition=req.query.is_single_product;
+  if(condition=='true'){
+    userHelpers.get_amount_of_one_product(req.query.product_id).then((result)=>{
+      // to make the total.total in hbs(similar to result of total_amount in else{})
+      let total={total:result.Price};
+      res.render('users/place_order',{user,total});
+    })
+  }
+  else{
+    let total = await userHelpers.total_amount(user._id);
+    res.render("users/place_order", { user, total });
+  }
 });
 
 router.post("/place_order", async (req, res) => {
@@ -243,7 +251,7 @@ router.get('/test',verifyLogin,async(req,res)=>{
   productHelpers.viewProduct().then((products) => {
     res.render("users/test", {
       admin: false,
-      style:'product_details.css',
+      style:'signup.css',
       products,  
       user,
       cart_count,

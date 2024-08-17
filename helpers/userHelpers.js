@@ -377,5 +377,14 @@ module.exports = {
       resolve(response)
     })
    })
+  },
+  get_amount_of_one_product:(product_id)=>{
+    return new Promise((resolve,reject)=>{
+      product_id= new objectId(product_id);
+      db.get().collection(collections.PRODUCT).findOne({_id:product_id}).then((result)=>{
+        resolve(result);
+      })
+    })
+
   }
 };
