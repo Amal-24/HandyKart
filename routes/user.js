@@ -135,28 +135,31 @@ router.get("/place_order", verifyLogin, async (req, res) => {
     userHelpers.get_amount_of_one_product(req.query.product_id).then((result)=>{
       // to make the total.total in hbs(similar to result of total_amount in else{})
       let total={total:result.Price};
-      res.render('users/place_order',{user,total});
+      res.render('users/place_order',{user,total,condition});
     })
   }
   else{
     let total = await userHelpers.total_amount(user._id);
-    res.render("users/place_order", { user, total });
+    res.render("users/place_order", { user, total});
   }
 });
 
 router.post("/place_order", async (req, res) => {
   let products = await userHelpers.get_product_list(req.body.user_id);
-  let total_amount = await userHelpers.total_amount(req.body.user_id);
+  let condition = req.body.condition? true:false
+  let total_amount=req.body.total_amount;
+  //let total_amount = await userHelpers.total_amount(req.body.user_id);
   let insert_order_data = await userHelpers.place_order(
     req.body,
     products,
-    total_amount.total
+    total_amount,
+    condition
   );
   if (req.body.payment_method === "COD") {
     let response={ cod_success: true } 
     res.json(response);
   } else {
-    userHelpers.generate_razorpay(insert_order_data,total_amount.total).then((response)=>{
+    userHelpers.generate_razorpay(insert_order_data,total_amount).then((response)=>{
       res.json(response)
     }) 
   }

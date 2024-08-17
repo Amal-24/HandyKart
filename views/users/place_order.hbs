@@ -33,6 +33,10 @@
         </div>
         <br />
         <h5>Total Amount:{{total.total}}</h5>
+        <input type=""  name="total_amount" value="{{total.total}}" hidden>
+        {{#if condition}}
+        <input type="text" name="condition" id="" value="{{condition}}" hidden>
+        {{/if}}
         <label for="" class="float-start">Payment Method:</label>
         <br />
         <div class="form-check">

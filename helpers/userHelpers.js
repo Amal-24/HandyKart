@@ -237,7 +237,7 @@ module.exports = {
     resolve(product_list.products)
    })
   },
-  place_order:(order_details,product_details,total_amount)=>{
+  place_order:(order_details,product_details,total_amount,condition)=>{
     return new Promise(async(resolve,reject)=>{
       let user_object_id= await new objectId(order_details.user_id)
       let status= order_details.payment_method==='COD'?'Placed':'Pending'
@@ -255,7 +255,8 @@ module.exports = {
         }
       }
       let insert_order_data=await db.get().collection(collections.ORDERS).insertOne(order_object)
-      let clear_cart= await db.get().collection(collections.CART).deleteOne({user:user_object_id})
+      if(condition==false){ 
+      let clear_cart= await db.get().collection(collections.CART).deleteOne({user:user_object_id})}
       resolve(insert_order_data.insertedId)
     })
   },
