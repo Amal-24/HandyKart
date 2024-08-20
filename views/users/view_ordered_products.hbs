@@ -4,7 +4,9 @@
             {{#each products}}
             <div class="col-md-3 mt-2">
                 <div class="card " style="width: 15rem; height: 26rem;">
+                     <a href="/product_details?product_id={{this.product._id}}">
                     <img src="/product_images/{{this.product._id}}.jpg" class="card-img-top" alt="...">
+                    </a>
                     <div class="card-body">
                         <h5 class="card-title">{{this.product.Name}}</h5>
                         <p class="card-text">₹{{this.product.Price}}</p>

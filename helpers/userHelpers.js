@@ -304,7 +304,6 @@ module.exports = {
           },
         ])
         .toArray();
-      console.log('uh 306',products);  
       resolve(products);
       
     })

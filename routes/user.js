@@ -54,7 +54,7 @@ router.post("/login", (req, res) => {
   userHelpers.doLogIn(req.body).then((resp) => {
     if (resp.loginStatus) {
       req.session.userLoggedIn = true; 
-      req.session.user = resp.user; 
+      req.session.user = resp.user; // adding user details to session of req
       res.redirect("/"); 
       
     } else {
@@ -174,6 +174,8 @@ router.get("/orders", verifyLogin, async (req, res) => {
   let cart_count = await userHelpers.cart_count(req.session.user._id);
   res.render("users/orders", { orders, user: req.session.user,cart_count:cart_count });
 });
+
+
 router.get("/view_ordered_products", async (req, res) => {
   let order_id = req.query.id;
   let products = await userHelpers.ordered_products_list(order_id);
