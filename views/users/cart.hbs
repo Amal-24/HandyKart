@@ -33,12 +33,12 @@
 
 </script>
 <section class="h-100 h-custom " style="background-color: white">
-        <div class="container py-5 h-100">
+        <div class="container h-100">
           <div class="row d-flex justify-content-center align-items-center h-100">
             <div class="col-12">
-              <div class="card card-registration card-registration-2 " style="border-radius 15px;">
-                <div class="card-body p-0">
-                  <div class="row g-0">
+              <div class=" card-registration" style="">
+                <div class="card-body">
+                  <div class="row">
                     <div class="col-lg-8">
                       <div class="p-5">
                         {{#each user_cart}}
@@ -74,12 +74,11 @@
                         <hr class="my-4">
                         {{/each}}
                         <div class="pt-5">
-                          <h6 class="mb-0"><a href="/" class="text-body"><i
-                                class="fas fa-long-arrow-alt-left me-2"></i>Back to shop</a></h6>
+                          <h6 class="mb-0"><a href="/" class="text-body" style="text-decoration: none;">Back to shop</a></h6>
                         </div>
                       </div>
                     </div>
-                    <div class="col-lg-4 bg-body-tertiary rounded">
+                    <div class="col-lg-4" style="background-color: #F3F4F6;">
                       <div class="p-5">
                         <h3 class="fw-bold mb-5 mt-2 pt-1">Summary</h3>
                         <hr class="my-4">
@@ -114,10 +113,7 @@
                           <h5 class="text-uppercase">Total price</h5>
                           <h5 id="total">₹ {{total.total}} </h5>
                         </div>
-      
-                       
-                        <a href="/place_order" class="btn btn-success">Place Order</a>
-      
+                        <a href="/place_order" class="btn text-white bg-gray-700">Place Order</a>
                       </div>
                     </div>
                   </div>
