@@ -30,7 +30,7 @@ router.get("/", async function (req, res, next) {
     cart_count = 0;
   }
   productHelpers.viewProduct().then((products) => {
-    res.render("users/view_products", {
+    res.render("users/home", {
       admin: false,
       style:'product_card.css',
       products,
@@ -80,6 +80,11 @@ router.post("/signup", (req, res, next) => {
     res.redirect("/login");
   });
 });
+
+
+router.get('/view_products',(req,res)=>{
+  res.render("users/view_products")
+})
 
 router.get("/cart", verifyLogin, async (req, res, next) => {
   let user_cart = await userHelpers.get_cart_products(req.session.user._id);
