@@ -102,7 +102,7 @@ router.get("/cart", verifyLogin, async (req, res, next) => {
    else {
     cart_count = 0;
   }
-  let user=req.session.user._id
+  let user=req.session.user
   res.render("users/cart", {
     user_cart,
     user,
@@ -228,7 +228,7 @@ router.get('/remove_product',async(req,res)=>{
 router.get('/product_details',verifyLogin,(req,res)=>{
   userHelpers.get_product_details(req.query.product_id).then((response)=>{
     res.render('users/product_details',{
-      user:req.session.user._id,
+      user:req.session.user,
       product:response,
       style:'product_details.css'
     })
@@ -238,6 +238,13 @@ router.get('/product_details',verifyLogin,(req,res)=>{
 
 router.get('/search',(req,res)=>{
   res.send('seacrh')
+})
+
+router.get('/contact_us',(req,res)=>{
+  res.render('users/contact_us')
+})
+router.get('/ai',(req,res)=>{
+  res.render('users/ai')
 })
 
 
