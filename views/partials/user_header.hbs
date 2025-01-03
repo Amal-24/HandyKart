@@ -1,145 +1,176 @@
-<!--<header class="">
-  <nav class="navbar navbar-expand-lg bg-body-secondary">
-        <div class="container-fluid ">
-      <a class="navbar-brand" href="/">E-KART</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link active"  aria-current="page" href="/">Home</a>
-          </li>
-          <li class="nav-item">
-                        <a class="nav-link active" href="/cart">Cart<span class=" badge rounded-pill bg-primary"
-                        id="cart_count">
-                {{cart_count}}
-              </span></a>
-          </li>
-          {{#if user}}
-            <li class="nav-item">
-              <a class="nav-link active" href="/orders">Orders</a>
-            </li>
-          {{/if}}
-          <li><a href="/test">test</a></li>
-
-        </ul>
-                <div class="btn-group dropstart">
-                    <button type="button" style="background-color: #667eea;color:whitesmoke;" class="btn dropdown-toggle rounded-pill" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-          {{#if user}}
-                        {{user.Name}}
-           {{else}}
-                        Account
-           {{/if}} 
-          </button>
-          <ul class="dropdown-menu">
-            {{#if user}}
-              <li><a class="dropdown-item" href="/view_account">View Account</a></li>
-                        <li><a class="dropdown-item" style="color: red;" href="/logout">Logout</a></li>
-            {{else}}
-              <li><a class="dropdown-item" href="/login">Login</a></li>
-              <li><a class="dropdown-item" href="/signup">Signup</a></li>
-
-
-            {{/if}}
-
-
-          </ul>
-          {{#if user}}
-          <button class="btn btn-primary rounded-pill">
-            {{#if isMale}}
-            <img class="h-6 w-6" src="avatar/male_avatar.png" alt=""></button>
-           {{else}}
-                 <img class="h-6 w-6" src="avatar/female_avatar.png" alt=""></button>
-           {{/if}} 
-          {{/if}} 
-        </div>
-
-      </div>
-
-    </div>
-  </nav>
-</header>-->
-
 <header>
   <nav class="bg-white dark:bg-gray-800 antialiased">
-  <div class="max-w-screen-xl px-4 mx-auto 2xl:px-0 py-4">
-    <div class="flex items-center justify-between">
+    <div class="max-w-screen-xl px-4 mx-auto 2xl:px-0 py-4">
+      <div class="flex items-center justify-between">
 
-      <div class="flex items-center space-x-8">
-        <div class="shrink-0">
-          <a href="/"style="text-decoration: none;" title="" class="">
-            <h2>Handy Kart</h2>
-          </a>
+        <div class="flex items-center space-x-8">
+          <div class="shrink-0">
+            <a href="/" style="text-decoration: none;" title="" class="">
+              <h2>Handy Kart</h2>
+            </a>
+          </div>
+
+          <ul class="hidden lg:flex items-center justify-start gap-6 md:gap-8 py-3 sm:justify-center">
+            <li>
+              <a href="/" title="" style="text-decoration: none;"
+                class="flex text-sm font-medium text-gray-900 hover:text-primary-700 dark:text-white dark:hover:text-primary-500">
+                Home
+              </a>
+            </li>
+            <li class="shrink-0">
+              <a href="/view_products" title="" style="text-decoration: none;"
+                class="flex text-sm font-medium text-gray-900 hover:text-primary-700 dark:text-white dark:hover:text-primary-500">
+                Products
+              </a>
+            </li>
+            <li class="shrink-0">
+              <a href="/orders" title="" style="text-decoration: none;"
+                class="flex text-sm font-medium text-gray-900 hover:text-primary-700 dark:text-white dark:hover:text-primary-500">
+                Orders
+              </a>
+            </li>
+            <li class="shrink-0">
+              <button data-modal-target="authentication-modal" data-modal-toggle="authentication-modal"
+                class="flex text-sm font-medium text-gray-900 hover:text-primary-700 dark:text-white dark:hover:text-primary-500
+             text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium text-xs rounded-lg text-center pl-1 pr-1"
+                type="button">
+                Ask Ai
+              </button>
+            </li>
+            <li class="shrink-0">
+              <a href="/contact_us" title="" style="text-decoration: none;"
+                class="flex text-sm font-medium text-gray-900 hover:text-primary-700 dark:text-white dark:hover:text-primary-500">
+                Contact Us
+              </a>
+            </li>
+            <li class="shrink-0">
+              <a href="/test" title="" style="text-decoration: none;"
+                class="flex text-sm font-medium text-gray-900 hover:text-primary-700 dark:text-white dark:hover:text-primary-500">
+                test
+              </a>
+            </li>
+          </ul>
         </div>
+        <div class="flex items-center lg:space-x-2">
 
-        <ul class="hidden lg:flex items-center justify-start gap-6 md:gap-8 py-3 sm:justify-center">
-          <li>
-            <a href="/" title="" style="text-decoration: none;" class="flex text-sm font-medium text-gray-900 hover:text-primary-700 dark:text-white dark:hover:text-primary-500">
-              Home
-            </a>
-          </li>
-          <li class="shrink-0">
-            <a href="/view_products" title="" style="text-decoration: none;" class="flex text-sm font-medium text-gray-900 hover:text-primary-700 dark:text-white dark:hover:text-primary-500">
-              Products
-            </a>
-          </li>
-          <li class="shrink-0">
-            <a href="/orders" title="" style="text-decoration: none;" class="flex text-sm font-medium text-gray-900 hover:text-primary-700 dark:text-white dark:hover:text-primary-500">
-              Orders
-            </a>
-          </li>
-          <li class="shrink-0">
-            <a href="/ai" title="" style="text-decoration: none;"
-             class="flex text-sm font-medium text-gray-900 hover:text-primary-700 dark:text-white dark:hover:text-primary-500
-             text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium text-xs rounded-lg text-center pl-1 pr-1">
-              Ask Ai
-            </a>
-          </li>
-          <li class="shrink-0">
-            <a href="/contact_us" title="" style="text-decoration: none;" class="flex text-sm font-medium text-gray-900 hover:text-primary-700 dark:text-white dark:hover:text-primary-500">
-              Contact Us
-            </a>
-          </li>
-           <li class="shrink-0">
-            <a href="/test" title="" style="text-decoration: none;" class="flex text-sm font-medium text-gray-900 hover:text-primary-700 dark:text-white dark:hover:text-primary-500">
-              test
-            </a>
-          </li>
-        </ul>
-      </div>
+          <form class="flex items-center max-w-sm mx-auto">
+            <label for="simple-search" class="sr-only">Search</label>
+            <div class="relative w-full">
+              <input type="text" id="simple-search"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="Search branch name..." required />
+            </div>
 
-      <div class="flex items-center lg:space-x-2">
+            <button type="submit"
+              class="p-2.5 ms-2 text-sm font-medium text-white bg-gray-700 rounded-lg border border-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+              <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                viewBox="0 0 20 20">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+              </svg>
+              <span class="sr-only">Search</span>
+            </button>
+          </form>
 
-        <a href="/cart"  style="text-decoration: none;" id="myCartDropdownButton1" data-dropdown-toggle="myCartDropdown1" type="button" class="inline-flex items-center rounded-lg justify-center p-2 hover:bg-gray-100 dark:hover:bg-gray-700 text-sm font-medium leading-none text-gray-900 dark:text-white">
-          <svg class="w-5 h-5 lg:me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7H7.312"/>
-          </svg> 
-          <p>My Cart</p>
-        </a>
-        {{#if user}}
-        <a href="/view_account" id="userDropdownButton1" data-dropdown-toggle="userDropdown1" type="button" 
-         style="text-decoration: none;" class="inline-flex items-center rounded-lg justify-center p-2 hover:bg-gray-100 
-        dark:hover:bg-gray-700 text-sm font-medium leading-none text-gray-900 dark:text-white">
-          <svg class="w-5 h-5 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-            <path stroke="currentColor" stroke-width="2" d="M7 17v1a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1a3 3 0 0 0-3-3h-4a3 3 0 0 0-3 3Zm8-9a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
-          </svg> 
-          <p style="color: green;">{{user.Name}}</p>
-          {{else}}
-          <a href="/login" id="userDropdownButton1" data-dropdown-toggle="userDropdown1" type="button" 
-         style="text-decoration: none;" class="inline-flex items-center rounded-lg justify-center p-2 hover:bg-gray-100 
-        dark:hover:bg-gray-700 text-sm font-medium leading-none text-gray-900 dark:text-white">
-          <svg class="w-5 h-5 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-            <path stroke="currentColor" stroke-width="2" d="M7 17v1a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1a3 3 0 0 0-3-3h-4a3 3 0 0 0-3 3Zm8-9a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
-          </svg> 
-           <p>Account</p> 
-          {{/if}}          
+
+          <a href="/cart" style="text-decoration: none;" id="myCartDropdownButton1"
+            data-dropdown-toggle="myCartDropdown1" type="button"
+            class="inline-flex items-center rounded-lg justify-center p-2 hover:bg-gray-100 dark:hover:bg-gray-700 text-sm font-medium leading-none text-gray-900 dark:text-white">
+            <svg class="w-5 h-5 lg:me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+              fill="none" viewBox="0 0 24 24">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7H7.312" />
+            </svg>
+            <p>My Cart</p>
           </a>
+          {{#if user}}
+          <a href="/view_account" id="userDropdownButton1" data-dropdown-toggle="userDropdown1" type="button"
+            style="text-decoration: none;" class="inline-flex items-center rounded-lg justify-center p-2 hover:bg-gray-100 
+        dark:hover:bg-gray-700 text-sm font-medium leading-none text-gray-900 dark:text-white">
+            <svg class="w-5 h-5 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+              fill="none" viewBox="0 0 24 24">
+              <path stroke="currentColor" stroke-width="2"
+                d="M7 17v1a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1a3 3 0 0 0-3-3h-4a3 3 0 0 0-3 3Zm8-9a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+            </svg>
+            <p style="color: green;">{{user.Name}}</p>
+            {{else}}
+            <a href="/login" id="userDropdownButton1" data-dropdown-toggle="userDropdown1" type="button"
+              style="text-decoration: none;" class="inline-flex items-center rounded-lg justify-center p-2 hover:bg-gray-100 
+        dark:hover:bg-gray-700 text-sm font-medium leading-none text-gray-900 dark:text-white">
+              <svg class="w-5 h-5 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                fill="none" viewBox="0 0 24 24">
+                <path stroke="currentColor" stroke-width="2"
+                  d="M7 17v1a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1a3 3 0 0 0-3-3h-4a3 3 0 0 0-3 3Zm8-9a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+              </svg>
+              <p>Account</p>
+              {{/if}}
+            </a>
+        </div>
       </div>
     </div>
-  </div>
-</nav>
+  </nav>
 </header>
+<section>
+  <!-- ai popup section -->
+  <div id="authentication-modal" tabindex="-1" aria-hidden="true"
+    class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    <div class="relative p-4 w-full max-w-md max-h-full">
+      <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+        <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+          <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+            <svg xmlns="http://www.w3.org/2000/svg" height="30" width="30"
+              viewBox="0 0 640 512">
+              <path
+                d="M320 0c17.7 0 32 14.3 32 32l0 64 120 0c39.8 0 72 32.2 72 72l0 272c0 39.8-32.2 72-72 72l-304 0c-39.8 0-72-32.2-72-72l0-272c0-39.8 32.2-72 72-72l120 0 0-64c0-17.7 14.3-32 32-32zM208 384c-8.8 0-16 7.2-16 16s7.2 16 16 16l32 0c8.8 0 16-7.2 16-16s-7.2-16-16-16l-32 0zm96 0c-8.8 0-16 7.2-16 16s7.2 16 16 16l32 0c8.8 0 16-7.2 16-16s-7.2-16-16-16l-32 0zm96 0c-8.8 0-16 7.2-16 16s7.2 16 16 16l32 0c8.8 0 16-7.2 16-16s-7.2-16-16-16l-32 0zM264 256a40 40 0 1 0 -80 0 40 40 0 1 0 80 0zm152 40a40 40 0 1 0 0-80 40 40 0 1 0 0 80zM48 224l16 0 0 192-16 0c-26.5 0-48-21.5-48-48l0-96c0-26.5 21.5-48 48-48zm544 0c26.5 0 48 21.5 48 48l0 96c0 26.5-21.5 48-48 48l-16 0 0-192 16 0z" />
+            </svg>
+          </h3>
+          <button onclick="clear_area()"
+            class="end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-right items-right dark:hover:bg-gray-600 dark:hover:text-white">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+              <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M17.651 7.65a7.131 7.131 0 0 0-12.68 3.15M18.001 4v4h-4m-7.652 8.35a7.13 7.13 0 0 0 12.68-3.15M6 20v-4h4" />
+            </svg>
+          </button>
+          <button type="button"
+            class="end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+            data-modal-hide="authentication-modal">
+            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+            </svg>
+            <span class="sr-only">Close modal</span>
+          </button>
+        </div>
+        <div class="p-4 md:p-5">
+          <textarea disabled id="result" rows="12" cols="10"
+            class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></textarea>
+          <br>
+          <input type="text" id="prompt" name="prompt" placeholder="Enter your prompt here!"
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white">
+          <br>
+          <button onclick="ask_ai()"
+            class="w-full text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
+            Ask</button>
+        </div>
+      </div>
+    </div>
+</section>
+<script>
+  function ask_ai() {
+    let p = document.getElementById("prompt").value
+    $.ajax({
+      url: '/ai',
+      method: 'post',
+      data: { prompt: p },
+      success: (response) => {
+        //location.reload()
+        document.getElementById("result").innerHTML = response.resp
+      }
+    })
+  }
+
+  function clear_area() {
+    document.getElementById('result').innerHTML = "";
+    document.getElementById('prompt').value = "";
+  }
+</script>

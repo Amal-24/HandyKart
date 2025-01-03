@@ -6,6 +6,7 @@
     "start": "nodemon ./bin/www"
   },
   "dependencies": {
+    "@google/generative-ai": "^0.21.0",
     "alert": "^6.0.2",
     "bcrypt": "^5.1.1",
     "bson-objectid": "^2.0.4",

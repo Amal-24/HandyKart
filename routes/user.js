@@ -1,6 +1,7 @@
 var express = require("express");
 var productHelpers = require("../helpers/productHelpers");
 const userHelpers = require("../helpers/userHelpers");
+let ai_helper=require("../helpers/ai")
 let objectId = require("mongodb").ObjectId;
 var router = express.Router();
 let notifier=require('node-notifier')
@@ -83,7 +84,7 @@ router.post("/signup", (req, res, next) => {
 
 
 router.get('/view_products',(req,res)=>{
-  res.render("users/view_products")
+  res.render("users/view_products",{user:req.session.user})
 })
 
 router.get("/cart", verifyLogin, async (req, res, next) => {
@@ -241,11 +242,14 @@ router.get('/search',(req,res)=>{
 })
 
 router.get('/contact_us',(req,res)=>{
-  res.render('users/contact_us')
+  res.render('users/contact_us',{user:req.session.user})
 })
-router.get('/ai',(req,res)=>{
-  res.render('users/ai')
-})
+
+
+router.post('/ai',async(req,res)=>{
+  let response=await ai_helper.run(req.body.prompt);
+  res.json({resp:response})
+}) 
 
 
 
