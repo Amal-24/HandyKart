@@ -46,7 +46,7 @@ module.exports = {
     return new Promise(async(resolve,reject)=>{
       let obj_id= await new objectId(id)
       let updatedProduct= await db.get().collection(collections.PRODUCT).updateOne({_id:obj_id},
-        {$set:{Name:productDetails.Name,Description:productDetails.Description
+        {$set:{Name:productDetails.Name,Description:productDetails.Description,Color:productDetails.Color
         ,Price:productDetails.Price,Category:productDetails.Category}})
         resolve(updatedProduct)
     })
