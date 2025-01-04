@@ -1,20 +1,48 @@
-<div class="container">
-    <div class="row" style="justify-content: center;">
-        <div class="col-md-8  bg-gradient bg-secondary mt-2 text-white rounded shadow" >
-            <h2 class="text-center">Add Product</h2>
-            <form action="/admin/add_product" enctype="multipart/form-data" method="POST">
-                <label for="">Name</label>
-                <input type="text" name="Name" class="form-control">
-                <label for="">Category</label>
-                <input type="text" name="Category" class="form-control">
-                <label for="">Description</label>
-                <textarea type="text" name="Description" class="form-control" cols="10" rows="13"></textarea>
-                <label for="">Price</label>
-                <input type="number" min="0" max="999999999999" name="Price" class="form-control">
-                <label for="">Image</label>
-                <input type="file" name="Image" class="form-control">
-                <button type="submit" class="btn btn-primary mt-3" >Submit</button>
-            </form>
-        </div>
+<section class="bg-white dark:bg-gray-900">
+    <div class="py-8 px-4 mx-auto max-w-2xl lg:py-16">
+        <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">Add a new product</h2>
+        <form action="/admin/add_product" enctype="multipart/form-data" method="POST">
+            <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
+                <div class="sm:col-span-2">
+                    <label for="Name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Product
+                        Name</label>
+                    <input type="text" name="Name" id="Name"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                        placeholder="Type product name" required>
+                </div>
+                <div class="w-full">
+                    <label for="Category"
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category</label>
+                    <input type="text" name="Category" id="Category"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                        placeholder="Product category" required>
+                </div>
+                <div class="w-full">
+                    <label for="Price"
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Price</label>
+                    <input type="text" name="Price" id="Price"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                        placeholder="Product price" required>
+                </div>
+                <div class="sm:col-span-2">
+                    <label for="Description"
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
+                    <textarea id="Description" rows="8" name="Description" type="text"
+                        class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                        placeholder="Your description here"></textarea>
+                </div>
+                <div class="sm:col-span-2">
+                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="Image">
+                        Upload image </label>
+                    <input
+                        class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                        id="Image" name="Image" type="file">
+                </div>
+            </div>
+            <button type="submit"
+                class="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-gray-700 rounded-lg focus:ring-4 focus:ring-gray-200 dark:focus:ring-primary-900 hover:bg-primary-800">
+                Add product
+            </button>
+        </form>
     </div>
-</div>
+</section>
