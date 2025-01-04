@@ -1,22 +1,22 @@
-<div class="container-fluid">
-  <div class="row">
-    <div
-      class="col ms-3 bg-gradient bg-secondary mt-2 text-white rounded shadow"
-    >
-      <form id="checkout_form" action="" method="post">
-        <div class="form-group">
-          <label for="">Address</label>
-          <input type="text" class="form-control" id="address" name="address" />
+<section>
+
+  
+      <form id="checkout_form" action="" method="post" class="max-w-sm mx-auto">
+        <div class="mb-4">
+          <label for="" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" >Address</label>
+          <input type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+          id="address" name="address" />
+        </div>
+        <div class="mb-4">
+          <label for="" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" >Pincode</label>
+          <input type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+          id="pincode" name="pincode" />
         </div>
         <div class="form-group">
-          <label for="">Pincode</label>
-          <input type="text" class="form-control" id="pincode" name="pincode" />
-        </div>
-        <div class="form-group">
-          <label for="">Mobile Number</label>
+          <label for="" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" >Mobile Number</label>
           <input
             type="text"
-            class="form-control"
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             id="mobilenumber"
             name="mobilenumber"
           />
@@ -32,13 +32,15 @@
           />
         </div>
         <br />
-        <h5>Total Amount:{{total.total}}</h5>
+        <h5 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Total Amount:
+          <span style="font-weight: bold;"> ₹ {{total.total}}</span></h5>
         <input type=""  name="total_amount" value="{{total.total}}" hidden>
         {{#if condition}}
-        <input type="text" name="condition" id="" value="{{condition}}" hidden>
+        <input type="text" name="condition" id="condition" value="{{condition}}" hidden >
+        <input type="text" name="product_id" id="product_id" value="{{product_id}}" hidden >
         {{/if}}
-        <label for="" class="float-start">Payment Method:</label>
-        <br />
+        <label for="" class="float-start block  text-sm font-medium text-gray-900 dark:text-white">
+          Payment Method:</label>
         <div class="form-check">
           <input
             class="form-check-input"
@@ -47,7 +49,7 @@
             value="COD"
             id="COD"
           />
-          <label class="form-check-label">
+          <label class="form-check-label block mb-2 text-sm font-medium text-gray-900 dark:text-white">
             COD
           </label>
         </div>
@@ -59,24 +61,22 @@
             value="ONLINE"
             id="ONLINE"
           />
-          <label class="form-check-label">
+          <label class="form-check-label block mb-2 text-sm font-medium text-gray-900 dark:text-white">
             Online Payment
           </label>
         </div>
         <button
           type="submit"
-          class="btn btn-primary mt-2 float-start"
-        >Submit</button>
+          class="text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 "
+        >Confirm Order</button>
         <br />
       </form>
-    </div>
-  </div>
-</div>
+</section>
+
+
+
 <script>
    function verify_payment(payment,order){
-    console.log('palce_order:73',payment)
-    console.log('palce_order:74',order)
-
     $.ajax({
         url:'/verify_payment',
         data:{
@@ -128,14 +128,13 @@ var rzp1 = new Razorpay(options);
     rzp1.open();
 
  }
-
+/*
   $('#checkout_form').submit((e) => {
      e.preventDefault()
       $.ajax({ url:'/place_order',
        method: 'post', 
        data: $('#checkout_form').serialize(),
        success: (response) => { 
-        console.log('place_order.hbs:122',response)
 
         if (response.cod_success)
         { location.href ='/order_success' } 
@@ -147,5 +146,27 @@ var rzp1 = new Razorpay(options);
         }  
             })  
              })
+*/
+$('#checkout_form').submit(async (e) => {
+  e.preventDefault();
 
+  try {
+    const response = await $.ajax({
+      url: '/place_order',
+      type:'post',
+      data: $('#checkout_form').serialize(),
+    });
+
+    if (response.cod_success) {
+      let order_id=response.order_id
+      //use backticks to pass variables in string in js
+      location.href = `/order_success?order_id=${order_id}`;
+    } else {
+      razorpay_payment(response); 
+    }
+
+  } catch (error) {
+    alert('An error occurred while placing the order. Please try again later.'); 
+  }
+});
 </script>

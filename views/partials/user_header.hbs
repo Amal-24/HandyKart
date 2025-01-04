@@ -118,8 +118,7 @@
       <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
         <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
           <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-            <svg xmlns="http://www.w3.org/2000/svg" height="30" width="30"
-              viewBox="0 0 640 512">
+            <svg xmlns="http://www.w3.org/2000/svg" height="30" width="30" viewBox="0 0 640 512">
               <path
                 d="M320 0c17.7 0 32 14.3 32 32l0 64 120 0c39.8 0 72 32.2 72 72l0 272c0 39.8-32.2 72-72 72l-304 0c-39.8 0-72-32.2-72-72l0-272c0-39.8 32.2-72 72-72l120 0 0-64c0-17.7 14.3-32 32-32zM208 384c-8.8 0-16 7.2-16 16s7.2 16 16 16l32 0c8.8 0 16-7.2 16-16s-7.2-16-16-16l-32 0zm96 0c-8.8 0-16 7.2-16 16s7.2 16 16 16l32 0c8.8 0 16-7.2 16-16s-7.2-16-16-16l-32 0zm96 0c-8.8 0-16 7.2-16 16s7.2 16 16 16l32 0c8.8 0 16-7.2 16-16s-7.2-16-16-16l-32 0zM264 256a40 40 0 1 0 -80 0 40 40 0 1 0 80 0zm152 40a40 40 0 1 0 0-80 40 40 0 1 0 0 80zM48 224l16 0 0 192-16 0c-26.5 0-48-21.5-48-48l0-96c0-26.5 21.5-48 48-48zm544 0c26.5 0 48 21.5 48 48l0 96c0 26.5-21.5 48-48 48l-16 0 0-192 16 0z" />
             </svg>
@@ -148,22 +147,34 @@
           <input type="text" id="prompt" name="prompt" placeholder="Enter your prompt here!"
             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white">
           <br>
-          <button onclick="ask_ai()"
+          <button type="button" onclick="ask_ai()"
             class="w-full text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
-            Ask</button>
+            <span class="loader" id="spinner" style="display:none;"></span> Ask
+          </button>
         </div>
       </div>
     </div>
 </section>
+
+
+
+
+
+
+
+
 <script>
   function ask_ai() {
+    document.getElementById('result').innerHTML = "";
+    let spinner = document.getElementById("spinner");
+    spinner.style.display = 'inline-block';
     let p = document.getElementById("prompt").value
     $.ajax({
       url: '/ai',
       method: 'post',
       data: { prompt: p },
       success: (response) => {
-        //location.reload()
+        spinner.style.display = 'none';
         document.getElementById("result").innerHTML = response.resp
       }
     })
@@ -173,4 +184,30 @@
     document.getElementById('result').innerHTML = "";
     document.getElementById('prompt').value = "";
   }
+
+
 </script>
+
+
+
+
+<style>
+.loader {
+    width: 15px;
+    height: 15px;
+    border: 2px solid #FFF;
+    border-bottom-color: #4B5563;
+    border-radius: 50%;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+    }
+
+    @keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+    } 
+</style>

@@ -33,12 +33,12 @@ router.get("/", async function (req, res, next) {
   productHelpers.viewProduct().then((products) => {
     res.render("users/home", {
       admin: false,
-      style:'product_card.css',
+      style:'home.css',
       products,
       user,
       cart_count,
       isMale
-    });
+    }); 
   });
 });
 
@@ -141,20 +141,26 @@ router.get("/place_order", verifyLogin, async (req, res) => {
     userHelpers.get_amount_of_one_product(req.query.product_id).then((result)=>{
       // to make the total.total in hbs(similar to result of total_amount in else{})
       let total={total:result.Price};
-      res.render('users/place_order',{user,total,condition});
+      res.render('users/place_order',{user,total,condition,product_id:req.query.product_id});
     })
   }
   else{
     let total = await userHelpers.total_amount(user._id);
     res.render("users/place_order", { user, total});
-  }
+  } 
 });
 
 router.post("/place_order", async (req, res) => {
-  let products = await userHelpers.get_product_list(req.body.user_id);
-  let condition = req.body.condition? true:false
+  let products = null
+  let condition = req.body.condition? true:false 
   let total_amount=req.body.total_amount;
-  //let total_amount = await userHelpers.total_amount(req.body.user_id);
+  if(condition){
+    let product_id= new objectId(req.body.product_id)
+    products=[{item:product_id,quantity:1}]
+  }
+  else{
+    products = await userHelpers.get_product_list(req.body.user_id);
+  }
   let insert_order_data = await userHelpers.place_order(
     req.body,
     products,
@@ -162,7 +168,7 @@ router.post("/place_order", async (req, res) => {
     condition
   );
   if (req.body.payment_method === "COD") {
-    let response={ cod_success: true } 
+    let response={ cod_success: true,order_id:insert_order_data } 
     res.json(response);
   } else {
     userHelpers.generate_razorpay(insert_order_data,total_amount).then((response)=>{
@@ -171,9 +177,16 @@ router.post("/place_order", async (req, res) => {
   }
 });
 
-router.get("/order_success", (req, res) => {
-  res.render("users/order_success", { user: req.session.user });
-});
+router.get("/order_success",async (req, res) => {
+  let order_id=req.query.order_id
+  console.log('u183',req.session.user) 
+  let products = await userHelpers.ordered_products_list(order_id); 
+  console.log('u185',products) 
+  let order_details= await userHelpers.total_amount_of_each_order(order_id)
+  console.log('u187',order_details)     
+  res.render("users/order_success", 
+  {user:req.session.user,order_details:order_details,products_list:products});
+}); 
 
 router.get("/orders", verifyLogin, async (req, res) => {
   let orders = await userHelpers.orders_of_user(req.session.user._id);
@@ -185,7 +198,6 @@ router.get("/orders", verifyLogin, async (req, res) => {
 router.get("/view_ordered_products", async (req, res) => {
   let order_id = req.query.id;
   let products = await userHelpers.ordered_products_list(order_id);
-  console.log('u 164 ',products)
   let cart_count = await userHelpers.cart_count(req.session.user._id);
   res.render("users/view_ordered_products", {
     cart_count:cart_count,
@@ -236,7 +248,7 @@ router.get('/product_details',verifyLogin,(req,res)=>{
   })
 })
 
-
+ 
 router.get('/search',(req,res)=>{
   res.send('seacrh')
 })

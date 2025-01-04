@@ -183,7 +183,14 @@ module.exports = {
         resolve({ status: true });
       }
     });
-  },
+  },total_amount_of_each_order:async(order_id)=>{
+    order_id= await new objectId(order_id);
+    return new Promise(async(resolve,reject)=>{
+      let order_details= await db.get().collection(collections.ORDERS).findOne({_id:order_id})
+      resolve(order_details)
+    })
+  }
+  ,
   total_amount: (user_id) => {
     return new Promise(async (resolve, reject) => {
       let user_id_object = await new ObjectId(user_id);
@@ -386,5 +393,5 @@ module.exports = {
       })
     })
 
-  }
+  },
 };
