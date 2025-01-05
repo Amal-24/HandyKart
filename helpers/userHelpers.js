@@ -274,7 +274,15 @@ module.exports = {
       //console.log('userhelper 274',orders);
       resolve(orders)
     })
-  },
+  },cancel_order:async(order_id)=>{
+    order_id= await new objectId(order_id)
+    return new Promise(async(resolve,reject)=>{
+      let change_order_status= await db.get().collection(collections.ORDERS).
+      updateOne({_id:order_id},{$set:{status:'Cancelled'}});
+      resolve(change_order_status)
+    })
+  }
+  ,
   ordered_products_list:(order_id)=>{
     return new Promise(async(resolve,reject)=>{
       let order_id_object = await new objectId(order_id)

@@ -179,33 +179,39 @@ router.post("/place_order", async (req, res) => {
 
 router.get("/order_success",async (req, res) => {
   let order_id=req.query.order_id
-  console.log('u183',req.session.user) 
   let products = await userHelpers.ordered_products_list(order_id); 
-  console.log('u185',products) 
   let order_details= await userHelpers.total_amount_of_each_order(order_id)
-  console.log('u187',order_details)     
   res.render("users/order_success", 
   {user:req.session.user,order_details:order_details,products_list:products});
 }); 
 
 router.get("/orders", verifyLogin, async (req, res) => {
+  let user = req.session.user;
   let orders = await userHelpers.orders_of_user(req.session.user._id);
-  let cart_count = await userHelpers.cart_count(req.session.user._id);
-  res.render("users/orders", { orders, user: req.session.user,cart_count:cart_count });
+
+    res.render("users/orders", {
+      admin: false,  
+      user,
+      orders
+    });
 });
 
 
-router.get("/view_ordered_products", async (req, res) => {
-  let order_id = req.query.id;
+router.get("/order_details", async (req, res) => {
+  let order_id = req.query.order_id;
   let products = await userHelpers.ordered_products_list(order_id);
-  let cart_count = await userHelpers.cart_count(req.session.user._id);
-  res.render("users/view_ordered_products", {
-    cart_count:cart_count,
+  let order_details= await userHelpers.total_amount_of_each_order(order_id)
+  res.render("users/order_details", {
     user: req.session.user,
-    products,
+    products,order_details
   }); 
 });
 
+router.get("/cancel_order",async(req,res)=>{
+  let order_id=req.query.order_id;
+  let cancel_order= await userHelpers.cancel_order(order_id)
+  res.redirect('/orders')
+})
 
 router.post('/verify_payment',async(req,res)=>{
   let verification= await userHelpers.payment_verification(req.body)
@@ -215,7 +221,7 @@ router.post('/verify_payment',async(req,res)=>{
   }
   else{
     res.json({status:false})
-  }
+  } 
 })
 
 
@@ -237,6 +243,7 @@ router.get('/remove_product',async(req,res)=>{
     alert(err)
   });
 })
+
 
 router.get('/product_details',verifyLogin,(req,res)=>{
   userHelpers.get_product_details(req.query.product_id).then((response)=>{
@@ -267,30 +274,14 @@ router.post('/ai',async(req,res)=>{
 
 router.get('/test',verifyLogin,async(req,res)=>{
   let user = req.session.user;
-  let cart_count = null;
-  let isMale=false;
+  let orders = await userHelpers.orders_of_user(req.session.user._id);
 
-  if (req.session.user) {
-    cart_count = await userHelpers.cart_count(req.session.user._id);
-    if(req.session.user.Gender=="Male"){
-     isMale=true
-    }
-    else{
-      isMale=false
-    } 
-  } else { 
-    cart_count = 0;
-  }
-  productHelpers.viewProduct().then((products) => {
     res.render("users/test", {
-      admin: false,
-      style:'signup.css',
-      products,  
+      admin: false,  
       user,
-      cart_count,
-      isMale
+      orders
     });
-  });
+  
 })
 
 module.exports = router;

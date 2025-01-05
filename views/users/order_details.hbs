@@ -1,3 +1,4 @@
+
 <section class="bg-white py-8 antialiased dark:bg-gray-900 md:py-16">
   <form action="#" class="mx-auto max-w-screen-xl px-4 2xl:px-0">
     <div class="mx-auto max-w-3xl">
@@ -20,19 +21,19 @@
 
           <table class="w-full text-left font-medium text-gray-900 dark:text-white md:table-fixed">
             <tbody class="divide-y divide-gray-200 dark:divide-gray-800">
-              {{#each products_list}}
+              {{#each products}}
               <tr>
                 <td class="whitespace-nowrap py-4 md:w-[384px]">
                   <div class="flex items-center gap-4">
                     <a href="/product_details?product_id={{this.product._id}}" class="flex items-center aspect-square w-10 h-10 shrink-0">
                       <img class="h-auto w-full max-h-full dark:hidden" src="product_images/{{this.product._id}}.jpg" alt="imac image" />
                     </a>
-                    <a href="/product_details?product_id={{this.product._id}}" style="text-decoration: none;">{{this.product.Name}}</a>
+                    <a href="/product_details?product_id={{this._id}}" style="text-decoration: none;">{{this.product.Name}}</a>
                   </div>
                 </td>
                 <td class="p-4 text-base font-normal text-gray-900 dark:text-white">x {{this.quantity}}</td>
                 <td class="p-4 text-right text-base font-bold text-gray-900 dark:text-white">
-                <span style="font-weight: bold;"> ₹ {{this.product.Price}}</span></td>
+                <span style="font-weight: bold;"> ₹ {{#cal_price   this.product.Price this.quantity}}{{/cal_price}}</span></td>
               </tr>
               {{/each}}
             </tbody>
@@ -47,10 +48,10 @@
             </dl>
           </div>
           <div class="gap-4 sm:flex sm:items-center">
-            <a href="/" 
+            <a href="/orders" 
            style="text-decoration: none;"
             class="text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">
-            Return to Shopping</a>
+            Return to Orders</a>
           </div>
         </div>
       </div>

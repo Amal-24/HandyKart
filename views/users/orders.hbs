@@ -1,41 +1,46 @@
-<section>
-    <div class="container-fluid">
-        <div class="row mt-4 ">
-            <div class="col-md-12">
-                <table class="table table-hover ml-3">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Date</th>
-                            <th scope="col">Address</th>
-                            <th scope="col">Mobile Number</th>
-                            <th scope="col">Status</th>
-                            <th scope="col">Payment Method</th>
-                            <th scope="col">Amount</th>
-                            <th scope="col"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
+<section class="bg-white py-8 antialiased dark:bg-gray-900 md:py-16">
+  <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
+    <div class="mx-auto max-w-5xl">
+      <div class="gap-4 sm:flex sm:items-center sm:justify-between">
+        <h2 class="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">My orders</h2>
+      </div>
+      {{#each orders}}
+      <div class="mt-6 flow-root sm:mt-8">
+        <div class="divide-y divide-gray-200 dark:divide-gray-700">
+          <div class="flex flex-wrap items-center gap-y-4 py-6">
+            <dl class="w-1/2 sm:w-1/4 lg:w-auto lg:flex-1">
+              <dt class="text-base font-medium text-gray-500 dark:text-gray-400">Order ID:</dt>
+              <dd class="mt-1.5 text-base font-semibold text-gray-900 dark:text-white">
+                <p>#{{this._id}}</p>
+              </dd>
+            </dl>
 
-                        {{#each orders}}
-                        <tr>
-                            <td>{{@index}}</td>
-                            <td>{{this.date}}</td>
-                            <td>{{this.delivery_details.address}}</td>
-                            <td>{{this.delivery_details.mobile_number}}</td>
-                            <td>{{this.status}}</td>
-                            <td>{{this.payment_method}}</td>
-                            <td> ₹{{this.total_amount}}</td>
-                            <td>
-                                <a href="/view_ordered_products?id={{this._id}}" class="btn btn-primary">View Ordered
-                                    Products</a>
-                            </td>
-                        </tr>
-                        {{/each}}
-                    </tbody>
-                </table>
+            <dl class="w-1/2 sm:w-1/4 lg:w-auto lg:flex-1">
+              <dt class="text-base font-medium text-gray-500 dark:text-gray-400">Date:</dt>
+              <dd class="mt-1.5 text-base font-semibold text-gray-900 dark:text-white">{{this.date}}</dd>
+            </dl>
+
+            <dl class="w-1/2 sm:w-1/4 lg:w-auto lg:flex-1">
+              <dt class="text-base font-medium text-gray-500 dark:text-gray-400">Total Amount:</dt>
+              <dd class="mt-1.5 text-base font-semibold text-gray-900 dark:text-white">₹ {{this.total_amount}}</dd>
+            </dl>
+
+            <dl class="w-1/2 sm:w-1/4 lg:w-auto lg:flex-1">
+              <dt class="text-base font-medium text-gray-500 dark:text-gray-400">Status:</dt>
+              {{#order_status this.status}} {{/order_status}}
+            </dl>
+
+            <div class="w-full grid sm:grid-cols-2 lg:flex lg:w-64 lg:items-center lg:justify-end gap-4">
+              {{#button this.status  this._id}}{{/button}}
+              <a href="/order_details?order_id={{this._id}}" style="text-decoration: none;"
+                class="w-full inline-flex justify-center rounded-lg  border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700 lg:w-auto">View
+                details</a>
             </div>
-
+          </div>
         </div>
+      </div>
+      {{/each}}
     </div>
+  </div>
+  </div>
 </section>
