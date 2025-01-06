@@ -8,10 +8,10 @@
         <h4 class="text-lg font-semibold text-gray-900 dark:text-white">Billing & Delivery information</h4>
 
         <dl>
-          <dt class="text-base font-medium text-gray-900 dark:text-white">{{user.Name}}</dt>
+          <dt class="text-base font-medium text-gray-900 dark:text-white">{{user_details.Name}}</dt>
           <dd class="mt-1 text-base font-normal text-gray-500 dark:text-gray-400">{{order_details.delivery_details.address}},{{order_details.delivery_details.pin_code}}</dd>
           <dd class="mt-1 text-base font-normal text-gray-500 dark:text-gray-400">{{order_details.delivery_details.mobile_number}}</dd>
-          <dd class="mt-1 text-base font-normal text-gray-500 dark:text-gray-400">{{user.Email}}</dd>
+          <dd class="mt-1 text-base font-normal text-gray-500 dark:text-gray-400">{{user_details.Email}}</dd>
 
         </dl>
       </div>
@@ -26,7 +26,7 @@
                 <td class="whitespace-nowrap py-4 md:w-[384px]">
                   <div class="flex items-center gap-4">
                     <a href="/product_details?product_id={{this.product._id}}" class="flex items-center aspect-square w-10 h-10 shrink-0">
-                      <img class="h-auto w-full max-h-full dark:hidden" src="product_images/{{this.product._id}}.jpg" alt="imac image" />
+                      <img class="h-auto w-full max-h-full dark:hidden" src="/product_images/{{this.product._id}}.jpg" alt="imac image" />
                     </a>
                     <a href="/product_details?product_id={{this._id}}" style="text-decoration: none;">{{this.product.Name}}</a>
                   </div>
@@ -46,9 +46,26 @@
               <dt class="text-lg font-bold text-gray-900 dark:text-white">Total</dt>
               <dd class="text-lg font-bold text-gray-900 dark:text-white">₹{{order_details.total_amount}}</dd>
             </dl>
+            <br>
+            <!-- hidden input field to pass order it to function change_order_status-->
+            <input type="text" name="" id="order_id" value="{{order_details._id}}" hidden>
+<form class="max-w-sm mx-auto">
+  <label for="status" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Current Status : {{order_details.status}}</label>
+  <select id="status" name="status" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+    <option selected>Change order status</option>
+    <option value="Placed">Placed</option>
+    <option value="Pending">Pending</option>
+    <option value="Delivered">Delivered</option>
+    <option value="Cancelled">Cancelled</option>
+  </select>
+  <button type="button" onclick="change_order_status(event)"
+   class="text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
+  > Apply changes
+  </button>
+</form>
           </div>
           <div class="gap-4 sm:flex sm:items-center">
-            <a href="/orders" 
+            <a href="/admin/admin_orders" 
            style="text-decoration: none;"
             class="text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">
             Return to Orders</a>
@@ -58,3 +75,22 @@
     </div>
   </form>
 </section>
+<script>
+  function change_order_status(event){
+    event.preventDefault()
+    let status=document.getElementById('status').value
+    //you can get the order_id from hidden input element in line 50 approx
+    let order_id=document.getElementById('order_id').value
+    $.ajax({
+      url:'change_order_status',
+      method:'post',
+      data:{status:status,order_id:order_id},
+      success:(response)=>
+      {
+        if(response.resp){
+          location.reload()
+        }
+      }
+    })
+  }
+</script>

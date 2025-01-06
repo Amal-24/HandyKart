@@ -24,7 +24,7 @@ module.exports = {
   },
 
 
-    delete_product:(id)=>{
+   delete_product:(id)=>{
    return new Promise(async(resolve,reject)=>{
     let ob_id= await  new objectId(id)
     db.get().collection(collections.PRODUCT).deleteOne({_id:ob_id})
@@ -51,5 +51,23 @@ module.exports = {
         resolve(updatedProduct)
     })
 
-  },
+  },get_all_orders:()=>{
+    return new Promise(async(resolve,reject)=>{
+      let all_orders = await db.get().collection(collections.ORDERS).find().toArray()
+      resolve(all_orders);
+    })
+  },get_user_details:async(user_id)=>{
+    user_id= await new objectId(user_id)
+    return new Promise(async(resolve,reject)=>{
+      let user_details= await db.get().collection(collections.USERS).findOne({_id:user_id});
+      resolve(user_details);
+    })
+  },change_order_status:async(order_id,new_status)=>{
+    order_id= await new objectId(order_id);
+    return new Promise(async(resolve,reject)=>{
+     let change_status = await db.get().collection(collections.ORDERS).
+     updateOne({_id:order_id},{$set:{status:new_status}})
+     resolve(change_status);
+    })
+  }
 }
