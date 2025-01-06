@@ -5,19 +5,16 @@
       <div class="mb-4 grid gap-4 sm:grid-cols-2 sm:gap-8 lg:gap-16">
         <div class="space-y-4">
           <div class="flex space-x-4">
-            <img class="h-16 w-16 rounded-lg" src="{{#user_image user.Gender}}{{/user_image}}" alt="Helene avatar" />
+            <img class="h-16 w-16 rounded-lg" src="/{{#user_image customer_details.Gender}}{{/user_image}}" alt="Helene avatar" />
             <div>
               <h2 class="flex items-center text-xl font-bold leading-none text-gray-900 dark:text-white sm:text-2xl">{{user.Name}}</h2>
-              <br>
-              <a href="/logout" style="text-decoration: none;"  type="button" class="text-red-700 hover:text-white  border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900">
-              Log Out</a>
             </div>
           </div>
           <dl class="">
             <dt class="font-semibold text-gray-900 dark:text-white">Email Address:</dt>
-            <dd class="text-gray-500 dark:text-gray-400">{{user.Email}}</dd>
+            <dd class="text-gray-500 dark:text-gray-400">{{customer_details.Email}}</dd>
             <dt class="font-semibold text-gray-900 dark:text-white">Gender:</dt>
-            <dd class="text-gray-500 dark:text-gray-400">{{user.Gender}}</dd>            
+            <dd class="text-gray-500 dark:text-gray-400">{{customer_details.Gender}}</dd>            
           </dl>
         </div>
       </div>
@@ -25,11 +22,12 @@
     <div class="rounded-lg border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-800 md:p-8">
       <h3 class="mb-4 text-xl font-semibold text-gray-900 dark:text-white">Latest orders</h3>
       {{#each orders}}
+      <a href="/admin/admin_order_details?order_id={{this._id}}&&user_id={{this.user}}" style="text-decoration: none;">
       <div class="flex flex-wrap items-center gap-y-4 border-b border-gray-200 pb-4 dark:border-gray-700 md:pb-5">
         <dl class="w-1/2 sm:w-48">
           <dt class="text-base font-medium text-gray-500 dark:text-gray-400">Order ID:</dt>
           <dd class="mt-1.5 text-base font-semibold text-gray-900 dark:text-white">
-            <a href="/order_details?order_id={{this._id}}" style="text-decoration: none;">#{{this._id}}</a>
+            #{{this._id}}
           </dd>
         </dl>
 
@@ -49,6 +47,7 @@
           </dd>
         </dl>
       </div>
+      </a>
       {{/each}}
     </div>
   </div>

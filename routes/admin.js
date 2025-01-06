@@ -81,6 +81,24 @@ router.post("/change_order_status",(req,res)=>{
   res.json({resp:true})
 })
 
+router.get('/admin_customers',async(req,res)=>{
+  let customers= await productHelpers.get_all_customers();
+  res.render("admin/admin_customers",{customers,admin:true})
+})
+
+
+router.get('/customer_details',async(req,res)=>{
+  let customer_id=req.query.customer_id
+  let customer_details= await productHelpers.get_user_details(customer_id);
+  let orders_of_customer= await userHelpers.orders_of_user(customer_id);
+  res.render("admin/customer_details",{customer_details,admin:true,orders:orders_of_customer})
+})
+
+router.get("/admin_product_details",async(req,res)=>{
+  let product_details = await userHelpers.get_product_details(req.query.product_id);
+  res.render("admin/admin_product_details",{admin:true,product:product_details})
+})
 
 
 module.exports = router;
+ 

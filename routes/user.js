@@ -128,10 +128,10 @@ router.post("/change_product_quantity", async (req, res) => {
   res.json(qty); 
 });
 
-router.get("/view_account",async (req, res) => {
-  let cart_count = await userHelpers.cart_count(req.session.user._id);
+router.get("/view_account",verifyLogin,async (req, res) => {
   let user = req.session.user;
-  res.render("users/view_user_account", { user,cart_count:cart_count });
+  let orders = await userHelpers.orders_of_user(req.session.user._id);
+  res.render("users/view_user_account", {user,orders});
 });
 
 router.get("/place_order", verifyLogin, async (req, res) => {
@@ -273,13 +273,10 @@ router.post('/ai',async(req,res)=>{
 
 
 router.get('/test',verifyLogin,async(req,res)=>{
-  let user = req.session.user;
-  let orders = await userHelpers.orders_of_user(req.session.user._id);
 
     res.render("users/test", {
       admin: false,  
-      user,
-      orders
+    
     });
   
 })

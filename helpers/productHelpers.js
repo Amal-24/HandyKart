@@ -69,5 +69,10 @@ module.exports = {
      updateOne({_id:order_id},{$set:{status:new_status}})
      resolve(change_status);
     })
+  },get_all_customers:()=>{
+    return new Promise(async(resolve,reject)=>{
+      let customers = await db.get().collection(collections.USERS).find().toArray()
+      resolve(customers);
+    })
   }
 }

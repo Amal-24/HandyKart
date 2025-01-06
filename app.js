@@ -49,6 +49,14 @@ app.engine(
       cal_price:(price,qty)=>{
         let total_price=price*qty
         return total_price;
+      },
+      user_image:(gender)=>{
+        if(gender=='Male'){
+          return 'avatar/male.png'
+        }
+        else{
+          return 'avatar/female.png'
+        }
       }
     }
   })

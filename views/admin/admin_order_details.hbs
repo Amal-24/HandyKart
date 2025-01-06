@@ -25,10 +25,10 @@
               <tr>
                 <td class="whitespace-nowrap py-4 md:w-[384px]">
                   <div class="flex items-center gap-4">
-                    <a href="/product_details?product_id={{this.product._id}}" class="flex items-center aspect-square w-10 h-10 shrink-0">
+                    <a href="/admin/admin_product_details?product_id={{this.product._id}}" class="flex items-center aspect-square w-10 h-10 shrink-0">
                       <img class="h-auto w-full max-h-full dark:hidden" src="/product_images/{{this.product._id}}.jpg" alt="imac image" />
                     </a>
-                    <a href="/product_details?product_id={{this._id}}" style="text-decoration: none;">{{this.product.Name}}</a>
+                    <a href="/admin/admin_product_details?product_id={{this.product._id}}" style="text-decoration: none;">{{this.product.Name}}</a>
                   </div>
                 </td>
                 <td class="p-4 text-base font-normal text-gray-900 dark:text-white">x {{this.quantity}}</td>
@@ -42,15 +42,16 @@
 
         <div class="mt-4 space-y-6">
           <div class="space-y-4">
-            <dl class="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700">
+              <dl class="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700">
               <dt class="text-lg font-bold text-gray-900 dark:text-white">Total</dt>
               <dd class="text-lg font-bold text-gray-900 dark:text-white">₹{{order_details.total_amount}}</dd>
+              <dt class="text-lg font-bold text-gray-900 dark:text-white"> Current Status:
+              </dt> {{#order_status order_details.status }}{{/order_status}}
             </dl>
             <br>
             <!-- hidden input field to pass order it to function change_order_status-->
             <input type="text" name="" id="order_id" value="{{order_details._id}}" hidden>
 <form class="max-w-sm mx-auto">
-  <label for="status" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Current Status : {{order_details.status}}</label>
   <select id="status" name="status" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
     <option selected>Change order status</option>
     <option value="Placed">Placed</option>
@@ -59,7 +60,7 @@
     <option value="Cancelled">Cancelled</option>
   </select>
   <button type="button" onclick="change_order_status(event)"
-   class="text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
+   class="text-gray-800 bg-white-500 hover:text-white hover:bg-gray-800 border border-gray-800 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
   > Apply changes
   </button>
 </form>
