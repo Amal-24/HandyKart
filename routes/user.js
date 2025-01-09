@@ -117,10 +117,10 @@ router.get("/add_to_cart", verifyLogin, (req, res) => {
   let user_id = req.session.user._id;
   userHelpers.add_to_cart(product_id, user_id).then((result) => {
     res.json({ stat: true }); })
-});
+});  
 
 router.post("/change_product_quantity", async (req, res) => {
-  let qty = await userHelpers.change_product_quantity(req.body);
+  let qty = await userHelpers.change_product_quantity(req.body); 
   if (qty.status == true) {
     let total_amount = await userHelpers.total_amount(req.body.user);
     qty.total = total_amount.total;
