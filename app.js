@@ -42,7 +42,7 @@ app.engine(
         }
       },
       button:(stat,order_id)=>{
-        if(stat!="Cancelled"){
+        if(stat!="Cancelled" && stat!="Delivered"){
           return `<a href="/cancel_order?order_id=${order_id}" type="button" style="text-decoration: none;" class="w-full rounded-lg border border-red-700 px-3 py-2 text-center text-sm font-medium text-red-700 hover:bg-red-700 hover:text-white focus:outline-none focus:ring-4 focus:ring-red-300 dark:border-red-500 dark:text-red-500 dark:hover:bg-red-600 dark:hover:text-white dark:focus:ring-red-900 lg:w-auto">Cancel order</a>`
         }
       },

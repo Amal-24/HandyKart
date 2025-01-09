@@ -168,7 +168,7 @@ module.exports = {
           .collection(collections.CART)
           .updateOne(
             { _id: cart_object_id },
-            { $pull: { products: { item: product_object_id } } }
+            { $pull: { products: { item: product_object_id } } }//to delete elements in an array products
           );
         
         resolve({status:false,product_removed:true})
@@ -176,7 +176,7 @@ module.exports = {
         let quantity_update = await db
           .get()
           .collection(collections.CART)
-          .updateOne(
+          .updateOne(//to get element in array "products.item"
             { _id: cart_object_id, "products.item": product_object_id },
             { $inc: { "products.$.quantity": details.count } }
           );
