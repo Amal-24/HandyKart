@@ -19,7 +19,6 @@ const verifyLogin = async(req, res, next) => {
 
 router.get("/",verifyLogin, async (req, res, next)=> {
   let user = req.session.user; 
-  console.log(user)
   let products= await productHelpers.viewProduct()
     res.render("users/home", {
       admin: false,
@@ -251,6 +250,26 @@ router.post('/search',verifyLogin,async(req,res)=>{
     prompt:req.body.search
   }); 
 })
+
+
+router.get('/sort',verifyLogin,async(req,res)=>{
+  let search=req.query.search;
+  let sort_type=req.query.sort_type
+  let sort_result=[]
+  if(search==''){
+     sort_result = await userHelpers.sort('',sort_type);
+  }
+  else{
+    sort_result= await userHelpers.sort(search,sort_type);
+  }
+  res.render("users/view_products", {
+    admin: false,
+    products:sort_result,
+    user:req.session.user,
+    prompt:search
+  }); 
+})
+
 
 router.get('/contact_us',verifyLogin,(req,res)=>{
   res.render('users/contact_us',{user:req.session.user})

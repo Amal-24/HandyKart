@@ -411,4 +411,34 @@ module.exports = {
       resolve(search_result)
     })
   },
+  sort:(prompt,sort_type)=>{
+    prompt=prompt.toString();
+    sort_type=parseInt(sort_type);
+    let sort_result=[]
+    return new Promise(async(resolve,reject)=>{
+      if(prompt==''){
+        if(sort_type>0){
+           sort_result= await db.get().collection(collections.PRODUCT).find()
+          .sort({Price:sort_type}).toArray()
+        }
+        else{
+           sort_result= await db.get().collection(collections.PRODUCT).find()
+          .toArray()
+        }
+      }
+      else{
+        if(sort_type>0){
+          sort_result= await db.get().collection(collections.PRODUCT).find({
+            "$or":[{"Name":{$regex:prompt, $options: 'i'}}]
+          }).sort({Price:sort_type}).toArray()
+        }
+        else{
+          sort_result= await db.get().collection(collections.PRODUCT).find({
+            "$or":[{"Name":{$regex:prompt, $options: 'i'}}]
+          }).toArray()
+        }
+      }
+      resolve(sort_result);
+    })
+  },
 };
