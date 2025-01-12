@@ -17,7 +17,6 @@ module.exports = {
   viewProduct:()=>{
     return new Promise(async(resolve,reject)=>{
       let products= await db.get().collection(collections.PRODUCT).find().toArray()
-
       resolve(products)
     })
 

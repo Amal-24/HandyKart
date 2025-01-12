@@ -14,30 +14,16 @@ const verifyLogin = (req, res, next) => {
   }
 };
 
-router.get("/", async function (req, res, next) {
-  let user = req.session.user;
-  let cart_count = null;
-  let isMale=false;
-
-  if (req.session.user) {
-    cart_count = await userHelpers.cart_count(req.session.user._id);
-    if(req.session.user.Gender=="Male"){
-     isMale=true
-    }
-    else{
-      isMale=false
-    }
-  } else {
-    cart_count = 0;
-  }
-  productHelpers.viewProduct().then((products) => {
+router.get("/", async (req, res, next)=> {
+  let user = req.session.user; 
+  let products= await productHelpers.viewProduct()
     res.render("users/home", {
       admin: false,
       products,
       user,
     }); 
   });
-});
+
 
 router.get("/login", (req, res, next) => {
   if (req.session.userLoggedIn) {
@@ -80,8 +66,13 @@ router.post("/signup", (req, res, next) => {
 });
 
 
-router.get('/view_products',(req,res)=>{
-  res.render("users/view_products",{user:req.session.user})
+router.get('/view_products',verifyLogin,async(req,res)=>{
+  let products= await productHelpers.viewProduct()
+  res.render("users/view_products", {
+    admin: false,
+    products,
+    user:req.session.user,
+  }); 
 })
 
 router.get("/cart", verifyLogin, async (req, res, next) => {
