@@ -33,11 +33,8 @@ router.get("/", async function (req, res, next) {
   productHelpers.viewProduct().then((products) => {
     res.render("users/home", {
       admin: false,
-      style:'home.css',
       products,
       user,
-      cart_count,
-      isMale
     }); 
   });
 });
@@ -256,8 +253,14 @@ router.get('/product_details',verifyLogin,(req,res)=>{
 })
 
  
-router.get('/search',(req,res)=>{
-  res.send('seacrh')
+router.post('/search',verifyLogin,async(req,res)=>{
+  let search_result= await userHelpers.search(req.body.search);
+  res.render("users/view_products", {
+    admin: false,
+    products:search_result,
+    user:req.session.user,
+    prompt:req.body.search
+  }); 
 })
 
 router.get('/contact_us',(req,res)=>{

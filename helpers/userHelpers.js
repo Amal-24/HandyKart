@@ -402,4 +402,13 @@ module.exports = {
     })
 
   },
+  search:(prompt)=>{
+    prompt=prompt.toString()
+    return new Promise(async(resolve,reject)=>{
+      let search_result= await db.get().collection(collections.PRODUCT).find({
+        "$or":[{"Name":{$regex:prompt, $options: 'i'}}]
+      }).toArray()
+      resolve(search_result)
+    })
+  },
 };
