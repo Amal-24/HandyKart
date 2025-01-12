@@ -6,16 +6,20 @@ let objectId = require("mongodb").ObjectId;
 var router = express.Router();
 let notifier=require('node-notifier')
 
-const verifyLogin = (req, res, next) => {
+const verifyLogin = async(req, res, next) => {
+  
   if (req.session.userLoggedIn) {
+    req.session.user.cart_count=await userHelpers.cart_count(req.session.user._id)
+    // to get cart_count to display badge
     next();
   } else {
     res.redirect("/login");
   }
 };
 
-router.get("/", async (req, res, next)=> {
+router.get("/",verifyLogin, async (req, res, next)=> {
   let user = req.session.user; 
+  console.log(user)
   let products= await productHelpers.viewProduct()
     res.render("users/home", {
       admin: false,
@@ -84,12 +88,6 @@ router.get("/cart", verifyLogin, async (req, res, next) => {
   }
   else {
     total = 0;
-  }
-  if (req.session.user) {
-    cart_count = await userHelpers.cart_count(req.session.user._id);
-  }
-   else {
-    cart_count = 0;
   }
   let user=req.session.user
   res.render("users/cart", {
@@ -254,12 +252,12 @@ router.post('/search',verifyLogin,async(req,res)=>{
   }); 
 })
 
-router.get('/contact_us',(req,res)=>{
+router.get('/contact_us',verifyLogin,(req,res)=>{
   res.render('users/contact_us',{user:req.session.user})
 })
 
 
-router.post('/ai',async(req,res)=>{
+router.post('/ai',verifyLogin,async(req,res)=>{
   let response=await ai_helper.run(req.body.prompt);
   res.json({resp:response})
 }) 

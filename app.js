@@ -57,6 +57,14 @@ app.engine(
         else{
           return 'avatar/female.png'
         }
+      },
+      cart_count:(count)=>{
+        if(count>0){
+          return '<span class="flex w-2.5 h-2.5 bg-blue-800 rounded-full me-1.5 flex-shrink-0"></span>';
+        }
+        else{
+          return '';
+        }
       }
     }
   })

@@ -81,7 +81,9 @@
               <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7H7.312" />
             </svg>
-            <p>My Cart</p>
+            <p class="flex items-center text-sm font-medium text-gray-900 dark:text-white me-3">
+              {{#cart_count user.cart_count}}{{/cart_count}}
+              My Cart</p>
           </a>
           {{#if user}}
           <a href="/view_account" id="userDropdownButton1" data-dropdown-toggle="userDropdown1" type="button"
