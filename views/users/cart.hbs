@@ -3,12 +3,11 @@
 <script>
   function change_quantity(cart_id, product_id, user_id, count) {
     let quantity = parseInt(document.getElementById(product_id).innerHTML);
-    //count = parseInt(count);
     $.ajax({
       url: '/change_product_quantity',
       data: {
         cart: cart_id,
-        user_id:user_id,
+        user_id,
         product: product_id,
         count: count,
         quantity: quantity
@@ -54,12 +53,12 @@
                           </div>
                           <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
                             <button class="btn btn-outline-danger"
-              onclick="change_quantity('{{this._id}}','{{this.product._id}}','{{../user_id}}',-1)">-</button>
+              onclick="change_quantity('{{this._id}}','{{this.product._id}}','{{../user._id}}',-1)">-</button>
       
                           <h5 id="{{this.product._id}}">{{this.quantity}}</h5>
 
                             <button class="btn btn-outline-success"
-              onclick="change_quantity('{{this._id}}','{{this.product._id}}','{{../user_id}}',1)">+</button>
+              onclick="change_quantity('{{this._id}}','{{this.product._id}}','{{../user._id}}',1)">+</button>
 
                           </div>
                           <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
