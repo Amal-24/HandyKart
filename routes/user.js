@@ -5,6 +5,11 @@ let ai_helper=require("../helpers/ai")
 let objectId = require("mongodb").ObjectId;
 var router = express.Router();
 let notifier=require('node-notifier')
+const nodemailer = require('nodemailer');
+
+
+
+
 
 const verifyLogin = async(req, res, next) => {
   
@@ -279,6 +284,74 @@ router.post('/ai',verifyLogin,async(req,res)=>{
 }) 
 
 
+router.get('/forgot_password',(req,res)=>{
+  res.render('users/verify_email',{user:req.session.user})
+})
+
+
+router.post('/generate_otp',async(req,res)=>{
+  let Email=req.body.Email
+  let verify_email=await userHelpers.verify_email(Email);
+  let invalid_email=false
+  let otp=null
+  if(verify_email!=null){
+    invalid_email=false
+    otp= Math.floor((1000+Math.random()*9000));
+
+    const transporter = await nodemailer.createTransport({
+      host: "smtp.gmail.com",
+      port: 465,
+      secure: true, 
+      auth: {
+        user: 'amalkrishnaprasad4@gmail.com', 
+        pass: 'vrsanginymtdnvxz'
+      }
+    });
+  
+    const mail_options = {
+      from: 'amalkrishnaprasad4@gmail.com', 
+      to: `${Email}`, 
+      subject: 'OTP VERIFICATION',
+      text: `Your One Time Password is : ${otp}`
+    };
+    let mail_sent= await transporter.sendMail(mail_options);
+    res.render('users/verify_otp',{
+      otp:otp,Email//to pass email to new password to change password using Email
+    });
+
+  }else{
+    invalid_email=true
+    res.render('users/verify_email',{
+      invalid_email,
+    })
+  }
+
+})
+
+
+router.post('/verify_otp',(req,res)=>{
+  let invalid_otp=false
+  if(req.body.OTP==req.body.secret_otp){
+    invalid_otp=false;
+    res.render('users/new_password',{
+      Email:req.body.Email//to pass email to new password to change password using Email
+    })
+  }
+  else{
+    invalid_otp=true
+    res.render('users/verify_otp',{
+      invalid_otp,Email:req.body.Email,
+      otp:req.body.secret_otp//to pass secret otp if invalid otp is entered and to re enter correct otp
+    })
+  }
+})
+
+
+router.post('/change_password',async(req,res)=>{
+  let change_password = await userHelpers.change_password(req.body.Email,req.body.Password);
+  res.redirect('/login');
+})
+
 
 router.get('/test',verifyLogin,async(req,res)=>{
 
@@ -297,5 +370,7 @@ router.get('/test',verifyLogin,async(req,res)=>{
   });
   
 })
+
+
 
 module.exports = router;

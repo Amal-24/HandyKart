@@ -441,4 +441,19 @@ module.exports = {
       resolve(sort_result);
     })
   },
+  verify_email:(Email)=>{
+    return new Promise(async(resolve,reject)=>{
+      let verify_email=await db.get().collection(collections.USERS).findOne({Email:Email})
+      resolve(verify_email);
+    })
+  },
+  change_password:async(email,new_password)=>{
+    new_password = await bcrypt.hash(new_password, 10);
+
+    return new Promise(async(resolve,reject)=>{
+      let change_password=await db.get().collection(collections.USERS).updateOne({Email:email},
+        {$set:{Password:new_password}})
+      resolve(change_password);
+    })
+  },
 };
