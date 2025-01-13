@@ -191,9 +191,9 @@ module.exports = {
     })
   }
   ,
-  total_amount: (user_id) => {
+  total_amount: async(user_id) => {
+    let user_id_object = await new objectId(user_id);
     return new Promise(async (resolve, reject) => {
-      let user_id_object = await new ObjectId(user_id);
     
       let total = await db
         .get()

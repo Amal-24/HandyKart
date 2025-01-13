@@ -3,14 +3,12 @@
 <script>
   function change_quantity(cart_id, product_id, user_id, count) {
     let quantity = parseInt(document.getElementById(product_id).innerHTML);
-    count = parseInt(count);
-    user_id = new Object(user_id)
-
+    //count = parseInt(count);
     $.ajax({
       url: '/change_product_quantity',
       data: {
         cart: cart_id,
-        user: user_id,
+        user_id:user_id,
         product: product_id,
         count: count,
         quantity: quantity
@@ -44,33 +42,35 @@
                         {{#each user_cart}}
                         <div class="row mb-4 d-flex justify-content-between align-items-center">
                           <div class="col-md-2 col-lg-2 col-xl-2">
-                            <img
+                            <a href="/product_details?product_id={{this.product._id}}">
+                                   <img
                               src="/product_images/{{this.product._id}}.jpg"
-                              class="img-fluid rounded-3" alt="Cotton T-shirt">
+                              class="img-fluid rounded-3" alt="No Image">
+                            </a>
                           </div>
                           <div class="col-md-3 col-lg-3 col-xl-3">
-                            <h6 class="text-muted">{{this.product.Category}}</h6>
+                            <h6 class="text-muted" hidden>{{this.product.Category}}</h6>
                             <h6 class="mb-0">{{this.product.Name}}</h6>
                           </div>
                           <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
                             <button class="btn btn-outline-danger"
-              onclick="change_quantity('{{this._id}}','{{this.product._id}}','{{../user}}',-1)">-</button>
+              onclick="change_quantity('{{this._id}}','{{this.product._id}}','{{../user_id}}',-1)">-</button>
       
                           <h5 id="{{this.product._id}}">{{this.quantity}}</h5>
 
                             <button class="btn btn-outline-success"
-              onclick="change_quantity('{{this._id}}','{{this.product._id}}','{{../user}}',1)">+</button>
+              onclick="change_quantity('{{this._id}}','{{this.product._id}}','{{../user_id}}',1)">+</button>
 
                           </div>
                           <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                            <h6 class="mb-0">₹ {{this.product.Price}}</h6>
+                            <h6 class="mb-0">₹ {{#cal_price this.product.Price  this.quantity}}{{/cal_price}} 
+                            </h6>
                           </div>
                           <div class="col-md-1 col-lg-1 col-xl-1 text-end">
                             <a href="/remove_product?cart_id={{this._id}}&&product_id={{this.product._id}}"  
                             class="btn btn-danger">X</a>
                           </div>
                         </div>
-      
                         <hr class="my-4">
                         {{/each}}
                         <div class="pt-5">

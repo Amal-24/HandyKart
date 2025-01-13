@@ -88,10 +88,9 @@ router.get("/cart", verifyLogin, async (req, res, next) => {
   else {
     total = 0;
   }
-  let user=req.session.user
   res.render("users/cart", {
     user_cart,
-    user,
+    user_id:req.session.user._id,
     cart_count,
     total,
   });
@@ -105,12 +104,13 @@ router.get("/add_to_cart", verifyLogin, (req, res) => {
 });  
 
 router.post("/change_product_quantity", async (req, res) => {
+
   let qty = await userHelpers.change_product_quantity(req.body); 
   if (qty.status == true) {
-    let total_amount = await userHelpers.total_amount(req.body.user);
+    let total_amount = await userHelpers.total_amount(req.body.user_id);
     qty.total = total_amount.total;
   }
-  res.json(qty); 
+  res.json(qty);  
 });
 
 router.get("/view_account",verifyLogin,async (req, res) => {
