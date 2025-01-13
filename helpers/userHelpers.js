@@ -270,8 +270,8 @@ module.exports = {
   orders_of_user:(user_id)=>{
     return new Promise(async(resolve,reject)=>{
       let user_object_id= await new objectId(user_id) 
-      let orders=db.get().collection(collections.ORDERS).find({user:user_object_id}).toArray()
-      //console.log('userhelper 274',orders);
+      let orders=db.get().collection(collections.ORDERS).find({user:user_object_id})
+      .sort({date:-1}).toArray()
       resolve(orders)
     })
   },cancel_order:async(order_id)=>{

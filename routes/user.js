@@ -282,10 +282,19 @@ router.post('/ai',verifyLogin,async(req,res)=>{
 
 router.get('/test',verifyLogin,async(req,res)=>{
 
-    res.render("users/test", {
-      admin: false,  
-    
-    });
+  let user_cart = await userHelpers.get_cart_products(req.session.user._id);
+  let total = 0;
+  if (user_cart != []) {
+    total = await userHelpers.total_amount(req.session.user._id);
+  }
+  else {
+    total = 0;
+  }
+  res.render("users/test", {
+    user_cart,
+    user:req.session.user,
+    total,
+  });
   
 })
 
