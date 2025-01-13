@@ -285,7 +285,7 @@ router.post('/ai',verifyLogin,async(req,res)=>{
 
 
 router.get('/forgot_password',(req,res)=>{
-  res.render('users/verify_email',{user:req.session.user})
+  res.render('users/verify_email')
 })
 
 
