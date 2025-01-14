@@ -207,7 +207,7 @@ router.post('/verify_payment',async(req,res)=>{
     res.json({status:true})
   }
   else{
-    res.json({status:false})
+    res.json({status:false}) 
   } 
 })
 

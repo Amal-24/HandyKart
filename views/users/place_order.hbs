@@ -1,6 +1,4 @@
 <section>
-
-  
       <form id="checkout_form" action="" method="post" class="max-w-sm mx-auto">
         <div class="mb-4">
           <label for="" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" >Address</label>
@@ -86,7 +84,9 @@
         method:'post',
         success:(response)=>{
           if(response.status){
-            location.href='/order_success'
+           // location.href='/order_success';
+            location.href = `/order_success?order_id=${order.receipt}`;
+
           }
           else{
             alert('payment error')
@@ -128,25 +128,7 @@ var rzp1 = new Razorpay(options);
     rzp1.open();
 
  }
-/*
-  $('#checkout_form').submit((e) => {
-     e.preventDefault()
-      $.ajax({ url:'/place_order',
-       method: 'post', 
-       data: $('#checkout_form').serialize(),
-       success: (response) => { 
 
-        if (response.cod_success)
-        { location.href ='/order_success' } 
-        else{ 
-            razorpay_payment(response) } 
-            } ,
-        error:(err)=>{
-          console.log('place_order.hbs:128',err)
-        }  
-            })  
-             })
-*/
 $('#checkout_form').submit(async (e) => {
   e.preventDefault();
 
