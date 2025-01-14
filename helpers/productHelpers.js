@@ -52,7 +52,7 @@ module.exports = {
 
   },get_all_orders:()=>{
     return new Promise(async(resolve,reject)=>{
-      let all_orders = await db.get().collection(collections.ORDERS).find().toArray()
+      let all_orders = await db.get().collection(collections.ORDERS).find().sort({date:-1}).toArray()
       resolve(all_orders);
     })
   },get_user_details:async(user_id)=>{
