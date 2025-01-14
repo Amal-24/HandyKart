@@ -51,9 +51,12 @@
             <dl class="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700">
               <dt class="text-lg font-bold text-gray-900 dark:text-white">Total</dt>
               <dd class="text-lg font-bold text-gray-900 dark:text-white">₹{{order_details.total_amount}}</dd>
-              <dt class="text-lg font-bold text-gray-900 dark:text-white"> Current Status:
-              </dt> {{#order_status order_details.status }}{{/order_status}}
-
+              <dt class="text-lg font-bold text-gray-900 dark:text-white">Payment Method:</dt>
+              <dd class="">{{order_details.payment_method}}</dd>
+            </dl>
+            <dl>
+              <dt class="text-lg font-bold text-gray-900 dark:text-white"> Current Status:</dt> 
+              <dd>{{#order_status order_details.status }}{{/order_status}}</dd>
             </dl>
           </div>
           <div class="gap-4 sm:flex sm:items-center">
