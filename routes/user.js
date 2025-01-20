@@ -11,7 +11,7 @@ const nodemailer = require('nodemailer');
 
 
 
-const verifyLogin = async(req, res, next) => {
+const verify_login = async(req, res, next) => {
   
   if (req.session.user_logged_in) {
     req.session.user.cart_count=await user_helpers.cart_count(req.session.user._id)
@@ -22,7 +22,7 @@ const verifyLogin = async(req, res, next) => {
   }
 };
 
-router.get("/",verifyLogin, async (req, res, next)=> {
+router.get("/",verify_login, async (req, res, next)=> {
   let user = req.session.user; 
   let products= await product_helpers.view_product()
     res.render("users/home", {
@@ -74,7 +74,7 @@ router.post("/signup", (req, res, next) => {
 });
 
 
-router.get('/view_products',verifyLogin,async(req,res)=>{
+router.get('/view_products',verify_login,async(req,res)=>{
   let products= await product_helpers.view_product()
   res.render("users/view_products", {
     admin: false,
@@ -83,7 +83,7 @@ router.get('/view_products',verifyLogin,async(req,res)=>{
   }); 
 })
 
-router.get("/cart", verifyLogin, async (req, res, next) => {
+router.get("/cart", verify_login, async (req, res, next) => {
   let user_cart = await user_helpers.get_cart_products(req.session.user._id);
   let total = 0;
   if (user_cart != []) {
@@ -99,7 +99,7 @@ router.get("/cart", verifyLogin, async (req, res, next) => {
   });
 });
 
-router.get("/add_to_cart", verifyLogin, (req, res) => {
+router.get("/add_to_cart", verify_login, (req, res) => {
   let product_id = req.query.id;
   let user_id = req.session.user._id;
   user_helpers.add_to_cart(product_id, user_id).then((result) => {
@@ -115,13 +115,13 @@ router.post("/change_product_quantity", async (req, res) => {
   res.json(qty);  
 });
 
-router.get("/view_account",verifyLogin,async (req, res) => {
+router.get("/view_account",verify_login,async (req, res) => {
   let user = req.session.user;
   let orders = await user_helpers.orders_of_user(req.session.user._id);
   res.render("users/view_user_account", {user,orders});
 });
 
-router.get("/place_order", verifyLogin, async (req, res) => {
+router.get("/place_order", verify_login, async (req, res) => {
   let user = req.session.user;
   let condition=req.query.is_single_product;
   if(condition=='true'){
@@ -172,7 +172,7 @@ router.get("/order_success",async (req, res) => {
   {user:req.session.user,order_details:order_details,products_list:products});
 }); 
 
-router.get("/orders", verifyLogin, async (req, res) => {
+router.get("/orders", verify_login, async (req, res) => {
   let user = req.session.user;
   let orders = await user_helpers.orders_of_user(req.session.user._id);
 
@@ -232,18 +232,20 @@ router.get('/remove_product',async(req,res)=>{
 })
 
 
-router.get('/product_details',verifyLogin,(req,res)=>{
+router.get('/product_details',verify_login,(req,res)=>{
   user_helpers.get_product_details(req.query.product_id).then((response)=>{
+
+    let description=response.description;
+    let description_array=description.split(".");
     res.render('users/product_details',{
       user:req.session.user,
-      product:response,
-      style:'product_details.css'
+      product:response,description_array
     })
   })
 })
 
  
-router.post('/search',verifyLogin,async(req,res)=>{
+router.post('/search',verify_login,async(req,res)=>{
   let search_result= await user_helpers.search(req.body.search);
   res.render("users/view_products", {
     admin: false,
@@ -254,7 +256,7 @@ router.post('/search',verifyLogin,async(req,res)=>{
 })
 
 
-router.get('/sort',verifyLogin,async(req,res)=>{
+router.get('/sort',verify_login,async(req,res)=>{
   let search=req.query.search;
   let sort_type=req.query.sort_type
   let sort_result=[]
@@ -273,14 +275,20 @@ router.get('/sort',verifyLogin,async(req,res)=>{
 })
 
 
-router.get('/contact_us',verifyLogin,(req,res)=>{
+router.get('/contact_us',verify_login,(req,res)=>{
   res.render('users/contact_us',{user:req.session.user})
 })
 
 
-router.post('/ai',verifyLogin,async(req,res)=>{
+router.post('/ai',async(req,res)=>{
   let response=await ai_helper.run(req.body.prompt);
   res.json({resp:response})
+  /*if(req.session.user_logged_in){
+  let response=await ai_helper.run(req.body.prompt);
+  res.json({resp:response})
+  }else{
+    res.redirect('/login');
+  }*/
 }) 
 
 
@@ -353,7 +361,7 @@ router.post('/change_password',async(req,res)=>{
 })
 
 
-router.get('/test',verifyLogin,async(req,res)=>{
+router.get('/test',verify_login,async(req,res)=>{
 
   let user_cart = await user_helpers.get_cart_products(req.session.user._id);
   let total = 0;

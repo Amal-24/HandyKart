@@ -31,6 +31,7 @@
             </li>
             <li class="shrink-0">
               <button data-modal-target="authentication-modal" data-modal-toggle="authentication-modal"
+                id="ai_button"
                 class="flex text-sm font-medium text-gray-900 hover:text-primary-700 dark:text-white dark:hover:text-primary-500
              text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium text-xs rounded-lg text-center pl-1 pr-1"
                 type="button">
@@ -94,7 +95,7 @@
               <path stroke="currentColor" stroke-width="2"
                 d="M7 17v1a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1a3 3 0 0 0-3-3h-4a3 3 0 0 0-3 3Zm8-9a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
             </svg>
-            <p style="color: green;">{{user.name}}</p>
+            <p  id="user_id"  style="color: green;">{{user.name}}</p>
             {{else}}
             <a href="/login" id="userDropdownButton1" data-dropdown-toggle="userDropdown1" type="button"
               style="text-decoration: none;" class="inline-flex items-center rounded-lg justify-center p-2 hover:bg-gray-100 
@@ -113,6 +114,7 @@
   </nav>
 </header>
 <section>
+
   <!-- ai popup section -->
   <div id="authentication-modal" tabindex="-1" aria-hidden="true"
     class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
@@ -149,7 +151,7 @@
           <input type="text" id="prompt" name="prompt" placeholder="Enter your prompt here!"
             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white">
           <br>
-          <button type="button" onclick="ask_ai()"
+          <button type="button" onclick="ask_ai({{user}})"
             class="w-full text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
             <span class="loader" id="spinner" style="display:none;"></span> Ask
           </button>
@@ -166,11 +168,13 @@
 
 
 <script>
-  function ask_ai() {
+  function ask_ai(user) {
+    if(user!=null){
     document.getElementById('result').innerHTML = "";
     let spinner = document.getElementById("spinner");
     spinner.style.display = 'inline-block';
     let p = document.getElementById("prompt").value
+
     $.ajax({
       url: '/ai',
       method: 'post',
@@ -180,6 +184,12 @@
         document.getElementById("result").innerHTML = response.resp
       }
     })
+
+    }
+    else{
+      location.href='/login'
+    }
+  
   }
 
   function clear_area() {

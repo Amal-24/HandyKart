@@ -42,12 +42,14 @@ module.exports = {
     })
   },
 
-  update_product:(id,productDetails)=>{
+  update_product:(id,product_details)=>{
     return new Promise(async(resolve,reject)=>{
       let obj_id= await new objectId(id)
       let updatedProduct= await db.get().collection(collections.PRODUCT).updateOne({_id:obj_id},
-        {$set:{Name:productDetails.Name,Description:productDetails.Description,Color:productDetails.Color
-        ,Price:productDetails.Price,Category:productDetails.Category}})
+        {$set:{name:product_details.name,description:product_details.description,color:product_details.color
+        ,price:product_details.price,category:product_details.category,
+      seller_name:product_details.seller_name,seller_phone_number:product_details.seller_phone_number
+      ,seller_email:product_details.seller_email,seller_address:product_details.seller_address}})
         resolve(updatedProduct)
     })
 

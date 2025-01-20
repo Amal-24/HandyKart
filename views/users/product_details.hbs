@@ -139,11 +139,14 @@
 
           <hr class="my-6 md:my-8 border-gray-200 dark:border-gray-800" />
 
-          <p class="mb-6 text-gray-500 dark:text-gray-400">
             <h2 style="text-weight:bold" class="font-bold">Product Description</h2>
-            {{product.description}}
-          </p>
-          <hr class="my-6 md:my-8 border-gray-200 dark:border-gray-800" />
+            <ul style="list-style-type: disc;" class="mx-3">
+              {{#each description_array}}
+            <li>{{this}}.</li>
+            {{/each}}
+            </ul>
+            
+            <hr class="my-6 md:my-8 border-gray-200 dark:border-gray-800" />
           
             <h2  class="font-bold">Seller Details</h2>
             <p>{{product.seller_name}}</p>
