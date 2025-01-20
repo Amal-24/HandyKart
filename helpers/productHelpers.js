@@ -11,8 +11,8 @@ module.exports = {
 
       let add=await db.get()
       .collection(collections.PRODUCT)
-      .insertOne(product)
-      resolve(add.InsertedId)
+      .insertOne(product) 
+      resolve(add.insertedId)
     })
   },
   view_product:()=>{
@@ -32,7 +32,7 @@ module.exports = {
     resolve(resp);
   })
    })
-  },
+  }, 
    
   get_product_details:(id)=>{
     return new Promise(async(resolve,reject)=>{

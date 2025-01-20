@@ -19,7 +19,8 @@ router.get("/add_product", function (req, res, next) {
 router.post("/add_product", async (req, res, next)=> {
   req.body.price=parseInt(req.body.price)
   let id=await productHelpers.add_product(req.body);
-     let image = req.files.image;
+  console.log('a22',id);
+    let image = req.files.image;
     image.mv("./public/product_images/" + id + ".jpg", (err, done) => {
       if (!err) {
         res.redirect('/admin')
@@ -45,7 +46,7 @@ router.get('/edit_product',async(req,res)=>{
 );
 
 
-router.post('/edit_product',async(req,res)=>{
+router.post('/edit_product',async(req,res)=>{ 
   let product_id=req.query.id
   req.body.price=parseInt(req.body.price)
   if(req.body.condition=='true'){
