@@ -13,7 +13,7 @@ const nodemailer = require('nodemailer');
 
 const verifyLogin = async(req, res, next) => {
   
-  if (req.session.userLoggedIn) {
+  if (req.session.user_logged_in) {
     req.session.user.cart_count=await userHelpers.cart_count(req.session.user._id)
     // to get cart_count to display badge
     next();
@@ -24,7 +24,7 @@ const verifyLogin = async(req, res, next) => {
 
 router.get("/",verifyLogin, async (req, res, next)=> {
   let user = req.session.user; 
-  let products= await productHelpers.viewProduct()
+  let products= await productHelpers.view_product()
     res.render("users/home", {
       admin: false,
       products,
@@ -34,23 +34,23 @@ router.get("/",verifyLogin, async (req, res, next)=> {
 
 
 router.get("/login", (req, res, next) => {
-  if (req.session.userLoggedIn) {
+  if (req.session.user_logged_in) {
     res.redirect("/");
   } else {
-    res.render("users/login", { loginErr: req.session.userLoginErr });
-    req.session.userLoginErr = false;
+    res.render("users/login", { login_err: req.session.user_login_err });
+    req.session.user_login_err = false;
   }
 });
 
 router.post("/login", (req, res) => {
-  userHelpers.doLogIn(req.body).then((resp) => {
-    if (resp.loginStatus) {
-      req.session.userLoggedIn = true; 
+  userHelpers.log_in(req.body).then((resp) => {
+    if (resp.login_status) {
+      req.session.user_logged_in = true; 
       req.session.user = resp.user; // adding user details to session of req
       res.redirect("/"); 
       
     } else {
-      req.session.userLoginErr = "Invalid Username or Password";
+      req.session.user_login_err = "Invalid Username or Password";
      
       res.redirect("/login"); 
     }
@@ -59,7 +59,7 @@ router.post("/login", (req, res) => {
 
 router.get("/logout", (req, res) => {
   req.session.user=null
-  req.session.userLoggedIn=false
+  req.session.user_logged_in=false
   res.redirect("/");
 });
 
@@ -68,14 +68,14 @@ router.get("/signup", (req, res, next) => {
 });
 
 router.post("/signup", (req, res, next) => {
-  userHelpers.doSignUp(req.body).then((resp) => {
+  userHelpers.sign_up(req.body).then((resp) => {
     res.redirect("/login");
   });
 });
 
 
 router.get('/view_products',verifyLogin,async(req,res)=>{
-  let products= await productHelpers.viewProduct()
+  let products= await productHelpers.view_product()
   res.render("users/view_products", {
     admin: false,
     products,
@@ -290,8 +290,8 @@ router.get('/forgot_password',(req,res)=>{
 
 
 router.post('/generate_otp',async(req,res)=>{
-  let Email=req.body.Email
-  let verify_email=await userHelpers.verify_email(Email);
+  let email=req.body.email
+  let verify_email=await userHelpers.verify_email(email);
   let invalid_email=false
   let otp=null
   if(verify_email!=null){
@@ -310,13 +310,13 @@ router.post('/generate_otp',async(req,res)=>{
   
     const mail_options = {
       from: 'amalkrishnaprasad4@gmail.com', 
-      to: `${Email}`, 
+      to: `${email}`, 
       subject: 'OTP VERIFICATION',
       text: `Your One Time Password is : ${otp}`
     };
     let mail_sent= await transporter.sendMail(mail_options);
     res.render('users/verify_otp',{
-      otp:otp,Email//to pass email to new password to change password using Email
+      otp:otp,email//to pass email to new password to change password using Email
     });
 
   }else{
@@ -334,13 +334,13 @@ router.post('/verify_otp',(req,res)=>{
   if(req.body.OTP==req.body.secret_otp){
     invalid_otp=false;
     res.render('users/new_password',{
-      Email:req.body.Email//to pass email to new password to change password using Email
+      email:req.body.email//to pass email to new password to change password using Email
     })
   }
   else{
     invalid_otp=true
     res.render('users/verify_otp',{
-      invalid_otp,Email:req.body.Email,
+      invalid_otp,email:req.body.email,
       otp:req.body.secret_otp//to pass secret otp if invalid otp is entered and to re enter correct otp
     })
   }
@@ -348,7 +348,7 @@ router.post('/verify_otp',(req,res)=>{
 
 
 router.post('/change_password',async(req,res)=>{
-  let change_password = await userHelpers.change_password(req.body.Email,req.body.Password);
+  let change_password = await userHelpers.change_password(req.body.email,req.body.password);
   res.redirect('/login');
 })
 

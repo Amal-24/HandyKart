@@ -65,7 +65,7 @@
                 </div>
                 <div class="text-end md:order-4 md:w-32">
                   <p class="text-base font-bold text-gray-900 dark:text-white">
-                     ₹ {{#cal_price this.product.Price  this.quantity}}{{/cal_price}} 
+                     ₹ {{#cal_price this.product.price  this.quantity}}{{/cal_price}} 
                   </p>
                 </div>
               </div>
@@ -73,7 +73,7 @@
               <div class="w-full min-w-0 flex-1 space-y-4 md:order-2 md:max-w-md">
                 <a href="/product_details?product_id={{this.product._id}}"  style="text-decoration: none;"
                 class="text-base font-medium text-gray-900 hover:underline dark:text-white">
-                {{this.product.Name}}</a>
+                {{this.product.name}}</a>
                 <div class="flex items-center gap-4">
                   <a href="/remove_product?cart_id={{this._id}}&&product_id={{this.product._id}}" style="text-decoration: none;"
                    type="button" class="inline-flex items-center text-sm font-medium text-red-500 hover:text-red-600">

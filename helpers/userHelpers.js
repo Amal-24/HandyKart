@@ -13,36 +13,36 @@ var instance = new Razorpay(
    key_secret: 'AJNlFoCKb2pIORvIwl5ERT4J' })
 
 module.exports = {
-  doSignUp: (UserData) => {
+  sign_up: (user_data) => {
     return new Promise(async (resolve, reject) => {
-      UserData.Password = await bcrypt.hash(UserData.Password, 10);
+      user_data.password = await bcrypt.hash(user_data.password, 10);
       db.get()
         .collection(collections.USERS)
-        .insertOne(UserData)
+        .insertOne(user_data)
         .then((data) => {
           resolve(data);
         });
     });
   },
-  doLogIn: (userData) => {
+  log_in: (user_data) => {
     return new Promise(async (resolve, recject) => {
-      let loginStatus = false;
+      let login_status = false;
       let response = {};
       let user = await db
         .get()
         .collection(collections.USERS)
-        .findOne({ Email: userData.Email });
+        .findOne({ email: user_data.email });
       if (!user) {
-        response.loginStatus = false;
+        response.login_status = false;
       } else {
         let passwordEcry = await bcrypt.compare(
-          userData.Password,
-          user.Password
+          user_data.password,
+          user.password
         );
         if (!passwordEcry) {
-          response.loginStatus = false;
+          response.login_status = false;
         } else {
-          response.loginStatus = true;
+          response.login_status = true;
           response.user = user;
         }
       }
@@ -229,7 +229,7 @@ module.exports = {
           {
             $group: {
               _id: null,
-              total: { $sum: { $multiply: ["$quantity", "$product.Price"] } },
+              total: { $sum: { $multiply: ["$quantity", "$product.price"] } },
             },
           },
         ])
@@ -334,7 +334,6 @@ module.exports = {
       if(err){
         //console.log('userhelpers:334',err);
       }else{
-      //console.log("userhelper:335 ",order);
       resolve(order)
       }
       })
@@ -375,10 +374,10 @@ module.exports = {
         })
     })
   },
-  update_cart:(cart_id,newproducts)=>{
+  update_cart:(cart_id,new_products)=>{
     return new Promise(async(resolve,reject)=>{
       let cart_obj_id= new objectId(cart_id)
-      db.get().collection(collections.CART).updateOne({_id:cart_obj_id},{$set:{products:newproducts}})
+      db.get().collection(collections.CART).updateOne({_id:cart_obj_id},{$set:{products:new_products}})
       .then((result)=>{
         resolve(true);
       })
@@ -406,7 +405,7 @@ module.exports = {
     prompt=prompt.toString()
     return new Promise(async(resolve,reject)=>{
       let search_result= await db.get().collection(collections.PRODUCT).find({
-        "$or":[{"Name":{$regex:prompt, $options: 'i'}}]
+        "$or":[{"name":{$regex:prompt, $options: 'i'}}]
       }).toArray()
       resolve(search_result)
     })
@@ -419,7 +418,7 @@ module.exports = {
       if(prompt==''){
         if(sort_type>0){
            sort_result= await db.get().collection(collections.PRODUCT).find()
-          .sort({Price:sort_type}).toArray()
+          .sort({price:sort_type}).toArray()
         }
         else{
            sort_result= await db.get().collection(collections.PRODUCT).find()
@@ -429,21 +428,21 @@ module.exports = {
       else{
         if(sort_type>0){
           sort_result= await db.get().collection(collections.PRODUCT).find({
-            "$or":[{"Name":{$regex:prompt, $options: 'i'}}]
-          }).sort({Price:sort_type}).toArray()
+            "$or":[{"name":{$regex:prompt, $options: 'i'}}]
+          }).sort({price:sort_type}).toArray()
         }
         else{
           sort_result= await db.get().collection(collections.PRODUCT).find({
-            "$or":[{"Name":{$regex:prompt, $options: 'i'}}]
+            "$or":[{"name":{$regex:prompt, $options: 'i'}}]
           }).toArray()
         }
       }
       resolve(sort_result);
     })
   },
-  verify_email:(Email)=>{
+  verify_email:(email)=>{
     return new Promise(async(resolve,reject)=>{
-      let verify_email=await db.get().collection(collections.USERS).findOne({Email:Email})
+      let verify_email=await db.get().collection(collections.USERS).findOne({email:email})
       resolve(verify_email);
     })
   },
@@ -451,8 +450,8 @@ module.exports = {
     new_password = await bcrypt.hash(new_password, 10);
 
     return new Promise(async(resolve,reject)=>{
-      let change_password=await db.get().collection(collections.USERS).updateOne({Email:email},
-        {$set:{Password:new_password}})
+      let change_password=await db.get().collection(collections.USERS).updateOne({email:email},
+        {$set:{password:new_password}})
       resolve(change_password);
     })
   },

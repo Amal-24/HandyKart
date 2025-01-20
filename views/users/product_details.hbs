@@ -8,13 +8,13 @@
           <h1
             class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white"
           >
-            {{product.Name}}
+            {{product.name}}
           </h1>
           <div class="mt-4 sm:items-center sm:gap-4 sm:flex">
             <p
               class="text-2xl font-extrabold text-gray-900 sm:text-3xl dark:text-white"
             >
-               ₹{{product.Price}}
+               ₹{{product.price}}
             </p>
 
             <div class="flex items-center gap-2 mt-2 sm:mt-0">
@@ -140,8 +140,17 @@
           <hr class="my-6 md:my-8 border-gray-200 dark:border-gray-800" />
 
           <p class="mb-6 text-gray-500 dark:text-gray-400">
-            {{product.Description}}
+            <h2 style="text-weight:bold" class="font-bold">Product Description</h2>
+            {{product.description}}
           </p>
+          <hr class="my-6 md:my-8 border-gray-200 dark:border-gray-800" />
+          
+            <h2  class="font-bold">Seller Details</h2>
+            <p>{{product.seller_name}}</p>
+            <p>{{product.seller_phone_number}}</p>
+            <p>{{product.seller_email}}</p>
+            <p>{{product.seller_address}}</p>
+
         </div>
       </div>
     </div>

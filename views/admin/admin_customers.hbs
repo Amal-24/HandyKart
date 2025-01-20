@@ -22,13 +22,13 @@
             {{#each customers}}
             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {{this.Name}}
+                    {{this.name}}
                 </th>
                 <td class="px-6 py-4">
-                    {{this.Gender}}
+                    {{this.gender}}
                 </td>
                 <td class="px-6 py-4">
-                    {{this.Email}}
+                    {{this.email}}
                 </td>
                 <td class="px-6 py-4">
                     <a href="/admin/customer_details?customer_id={{this._id}}" style="text-decoration: none;"

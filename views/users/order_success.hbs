@@ -7,10 +7,10 @@
         <h4 class="text-lg font-semibold text-gray-900 dark:text-white">Billing & Delivery information</h4>
 
         <dl>
-          <dt class="text-base font-medium text-gray-900 dark:text-white">{{user.Name}}</dt>
+          <dt class="text-base font-medium text-gray-900 dark:text-white">{{user.name}}</dt>
           <dd class="mt-1 text-base font-normal text-gray-500 dark:text-gray-400">{{order_details.delivery_details.address}},{{order_details.delivery_details.pin_code}}</dd>
           <dd class="mt-1 text-base font-normal text-gray-500 dark:text-gray-400">{{order_details.delivery_details.mobile_number}}</dd>
-          <dd class="mt-1 text-base font-normal text-gray-500 dark:text-gray-400">{{user.Email}}</dd>
+          <dd class="mt-1 text-base font-normal text-gray-500 dark:text-gray-400">{{user.email}}</dd>
 
         </dl>
       </div>
@@ -27,12 +27,12 @@
                     <a href="/product_details?product_id={{this.product._id}}" class="flex items-center aspect-square w-10 h-10 shrink-0">
                       <img class="h-auto w-full max-h-full dark:hidden" src="product_images/{{this.product._id}}.jpg" alt="imac image" />
                     </a>
-                    <a href="/product_details?product_id={{this.product._id}}" style="text-decoration: none;">{{this.product.Name}}</a>
+                    <a href="/product_details?product_id={{this.product._id}}" style="text-decoration: none;">{{this.product.name}}</a>
                   </div>
                 </td>
                 <td class="p-4 text-base font-normal text-gray-900 dark:text-white">x {{this.quantity}}</td>
                 <td class="p-4 text-right text-base font-bold text-gray-900 dark:text-white">
-                <span style="font-weight: bold;"> ₹ {{this.product.Price}}</span></td>
+                <span style="font-weight: bold;"> ₹ {{this.product.price}}</span></td>
               </tr>
               {{/each}}
             </tbody>

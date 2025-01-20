@@ -5,7 +5,7 @@
       <div class="mb-4 grid gap-4 sm:grid-cols-2 sm:gap-8 lg:gap-16">
         <div class="space-y-4">
           <div class="flex space-x-4">
-            <img class="h-16 w-16 rounded-lg" src="{{#user_image user.Gender}}{{/user_image}}" alt="Helene avatar" />
+            <img class="h-16 w-16 rounded-lg" src="{{#user_image user.gender}}{{/user_image}}" alt="Helene avatar" />
             <div>
               <h2 class="flex items-center text-xl font-bold leading-none text-gray-900 dark:text-white sm:text-2xl">{{user.Name}}</h2>
               <br>
@@ -15,9 +15,9 @@
           </div>
           <dl class="">
             <dt class="font-semibold text-gray-900 dark:text-white">Email Address:</dt>
-            <dd class="text-gray-500 dark:text-gray-400">{{user.Email}}</dd>
+            <dd class="text-gray-500 dark:text-gray-400">{{user.email}}</dd>
             <dt class="font-semibold text-gray-900 dark:text-white">Gender:</dt>
-            <dd class="text-gray-500 dark:text-gray-400">{{user.Gender}}</dd>            
+            <dd class="text-gray-500 dark:text-gray-400">{{user.gender}}</dd>            
           </dl>
         </div>
       </div>
