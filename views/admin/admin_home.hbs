@@ -27,16 +27,16 @@
             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                 <a href="/admin/admin_product_details?product_id={{this._id}}">
                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {{this.Name}}
+                    {{this.name}}
                 </th>
                 <td class="px-6 py-4">
-                    {{this.Color}}
+                    {{this.color}}
                 </td>
                 <td class="px-6 py-4">
-                    {{this.Category}}
+                    {{this.category}}
                 </td>
                 <td class="px-6 py-4">
-                   ₹ {{this.Price}}
+                   ₹ {{this.price}}
                 </td>
                 <td class="px-6 py-4">
                     <img src="/product_images/{{this._id}}.jpg" style="width: 50px; height:50px;" alt="">
@@ -51,7 +51,7 @@
                         Edit</a>
                         <br>
                     <a href="/admin/delete_product?id={{product._id}}" class="font-medium text-red-600 hover:text-red-500" style="text-decoration:none;"
-                    onclick="return confirm('Do you want to delete {{product.Name}}')">
+                    onclick="return confirm('Do you want to delete {{product.name}}')">
                         Delete</a>
 
                 </td>

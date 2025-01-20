@@ -5,9 +5,9 @@ const userHelpers = require("../helpers/userHelpers");
 let rimraf=require("rimraf")
 let fs=require("graceful-fs");
 
-router.get("/", function (req, res, next) {
-    productHelpers.viewProduct().then((products)=>{
-    res.render("admin/admin_home", { admin: true, products});})
+router.get("/", async (req, res, next)=> {
+    let products= await productHelpers.view_product();    
+    res.render("admin/admin_home", { admin: true, products});
 });
 
 
@@ -16,10 +16,10 @@ router.get("/add_product", function (req, res, next) {
 });
 
 
-router.post("/add_product", function (req, res, next) {
-  req.body.Price=parseInt(req.body.Price)
-  productHelpers.addProduct(req.body, (id) => {
-     let image = req.files.Image;
+router.post("/add_product", async (req, res, next)=> {
+  req.body.price=parseInt(req.body.price)
+  let id=await productHelpers.add_product(req.body);
+     let image = req.files.image;
     image.mv("./public/product_images/" + id + ".jpg", (err, done) => {
       if (!err) {
         res.redirect('/admin')
@@ -28,7 +28,6 @@ router.post("/add_product", function (req, res, next) {
       }
     });
   });
-});
 
 
 router.get('/delete_product',(req,res)=>{
@@ -41,21 +40,21 @@ router.get('/delete_product',(req,res)=>{
 
 router.get('/edit_product',async(req,res)=>{
   let product_id=req.query.id
-  let product= await productHelpers.getProductDetails(product_id)
+  let product= await productHelpers.get_product_details(product_id)
   res.render('admin/edit_product',{admin:true,product})}
 );
 
 
 router.post('/edit_product',async(req,res)=>{
   let product_id=req.query.id
-  req.body.Price=parseInt(req.body.Price)
-  if(req.body.Condition=='true'){
+  req.body.price=parseInt(req.body.price)
+  if(req.body.condition=='true'){
     //use only single dot ./public not ../public
-    let delete_image=fs.unlinkSync("./public/product_images/" + product_id + ".jpg");
-   let image = req.files.Image; 
+   let delete_image=fs.unlinkSync("./public/product_images/" + product_id + ".jpg");
+   let image = req.files.image; 
    let replaced_image=await image.mv("./public/product_images/" + product_id + ".jpg")
   }
-  let updateResult= await productHelpers.updateProduct(product_id,req.body)
+  let updateResult= await productHelpers.update_product(product_id,req.body)
   res.redirect('/admin')
 })
 

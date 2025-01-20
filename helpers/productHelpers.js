@@ -5,16 +5,17 @@ let objectId=require('mongodb').ObjectId
 
 
 module.exports = {
-  addProduct: (product, callback) => {
+  add_product: (product) => {
 
-    db.get()
+    return new Promise(async(resolve,reject)=>{
+
+      let add=await db.get()
       .collection(collections.PRODUCT)
       .insertOne(product)
-      .then((data) => {
-        callback(data.insertedId);
-      });
+      resolve(add.InsertedId)
+    })
   },
-  viewProduct:()=>{
+  view_product:()=>{
     return new Promise(async(resolve,reject)=>{
       let products= await db.get().collection(collections.PRODUCT).find().toArray()
       resolve(products)
@@ -33,7 +34,7 @@ module.exports = {
    })
   },
    
-  getProductDetails:(id)=>{
+  get_product_details:(id)=>{
     return new Promise(async(resolve,reject)=>{
       let ob_id= await new objectId(id)
       let resp= await db.get().collection(collections.PRODUCT).findOne({_id:ob_id})
@@ -41,7 +42,7 @@ module.exports = {
     })
   },
 
-  updateProduct:(id,productDetails)=>{
+  update_product:(id,productDetails)=>{
     return new Promise(async(resolve,reject)=>{
       let obj_id= await new objectId(id)
       let updatedProduct= await db.get().collection(collections.PRODUCT).updateOne({_id:obj_id},

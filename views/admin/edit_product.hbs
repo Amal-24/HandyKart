@@ -4,22 +4,31 @@
             <h2 class="text-center text-xl font-bold text-gray-900 dark:text-white ">Edit Product</h2>
             <form action="/admin/edit_product?id={{product._id}}" enctype="multipart/form-data" method="POST">
                 <label for="" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
-                <input type="text" name="Name" class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" value="{{product.Name}}">
+                <input type="text" name="name" class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" value="{{product.name}}">
                 <label for="" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category</label>
-                <input type="text" name="Category" class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" value="{{product.Category}}">
+                <input type="text" name="category" class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" value="{{product.category}}">
+                <label for="" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Seller Name</label>
+                <input type="text" name="seller_name" class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" value="{{product.seller_name}}">         
+                <label for="" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Seller Contact Details</label>
+                <input type="tel" name="seller_phone_number" class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" value="{{product.seller_phone_number}}">
+                <input type="email" name="seller_email" class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" value="{{product.seller_email}}">
+                
+                <label for="" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Seller Address</label>
+                <input type="text" name="seller_address" class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" value="{{product.color}}">
+
                 <label for="" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Color</label>
-                <input type="text" name="Color" class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" value="{{product.Color}}">
+                <input type="text" name="color" class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" value="{{product.color}}">
                 <label for="" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
-                <input type="text" name="Description" class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" value="{{product.Description}}">
+                <input type="text" name="description" class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" value="{{product.description}}">
                 <label for="" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Price(₹)</label>
-                <input type="number" name="Price" class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" value="{{product.Price}}">
+                <input type="number" name="price" class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" value="{{product.price}}">
                 <img src="/product_images/{{product._id}}.jpg" alt="" style="width: 100px; heigh:50px;" id="Img"> 
                 <label for="" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Image</label>
                 <input onchange="change_condition()"
                 class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-                id="Image" name="Image" type="file">
+                id="Image" name="image" type="file">
                 <!-- hidden input below is used to pass whether image is changed or not -->
-                <input type="text" value="false" id="Condition" name="Condition" hidden>
+                <input type="text" value="false" id="condition" name="condition" hidden>
                  <button type="submit"
                 class="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-gray-700 rounded-lg focus:ring-4 focus:ring-gray-200 dark:focus:ring-primary-900 hover:bg-primary-800">
                 Submit
@@ -30,6 +39,6 @@
 </div>
 <script>
   function change_condition(){
-    document.getElementById("Condition").value="true"
+    document.getElementById("condition").value="true"
   }
 </script>
