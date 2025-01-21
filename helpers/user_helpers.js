@@ -410,13 +410,13 @@ module.exports = {
       resolve(search_result)
     })
   },
-  sort:(prompt,sort_type)=>{
-    prompt=prompt.toString();
+  sort:async(prompt,sort_type)=>{
+    prompt=await prompt.toString();
     sort_type=parseInt(sort_type);
     let sort_result=[]
     return new Promise(async(resolve,reject)=>{
       if(prompt==''){
-        if(sort_type>0){
+        if(sort_type!=0){
            sort_result= await db.get().collection(collections.PRODUCT).find()
           .sort({price:sort_type}).toArray()
         }
@@ -426,7 +426,7 @@ module.exports = {
         }
       }
       else{
-        if(sort_type>0){
+        if(sort_type!=0){
           sort_result= await db.get().collection(collections.PRODUCT).find({
             "$or":[{"name":{$regex:prompt, $options: 'i'}}]
           }).sort({price:sort_type}).toArray()
