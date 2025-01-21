@@ -19,16 +19,15 @@ router.get("/add_product", function (req, res, next) {
 router.post("/add_product", async (req, res, next)=> {
   req.body.price=parseInt(req.body.price)
   let id=await product_helpers.add_product(req.body);
-  console.log('a22',id);
-    let image = req.files.image;
-    image.mv("./public/product_images/" + id + ".jpg", (err, done) => {
-      if (!err) {
-        res.redirect('/admin')
-      } else {
-        res.send(err);
-      }
+  let image1 = req.files.image1;
+  let image1_upload=await image1.mv("./public/product_images/" + id + "1.jpg")
+  let image2 = req.files.image2;
+  let image2_upload=await image2.mv("./public/product_images/" + id + "2.jpg")
+  let image3 = req.files.image3;
+  let image3_upload=await image3.mv("./public/product_images/" + id + "3.jpg")
+
+  res.redirect('/admin');
     });
-  });
 
 
 router.get('/delete_product',(req,res)=>{
@@ -49,12 +48,26 @@ router.get('/edit_product',async(req,res)=>{
 router.post('/edit_product',async(req,res)=>{ 
   let product_id=req.query.id
   req.body.price=parseInt(req.body.price)
-  if(req.body.condition=='true'){
+  if(req.body.image1=='true'){  
     //use only single dot ./public not ../public
-   let delete_image=fs.unlinkSync("./public/product_images/" + product_id + ".jpg");
-   let image = req.files.image; 
-   let replaced_image=await image.mv("./public/product_images/" + product_id + ".jpg")
-  }
+   let delete_image=fs.unlinkSync("./public/product_images/" + product_id + "1.jpg");
+   let image1 = req.files.image1; 
+   let replaced_image=await image1.mv("./public/product_images/" + product_id + "1.jpg")
+   }
+
+   if(req.body.image2=='true'){
+    //use only single dot ./public not ../public
+   let delete_image=fs.unlinkSync("./public/product_images/" + product_id + "2.jpg");
+   let image2 = req.files.image2; 
+   let replaced_image=await image2.mv("./public/product_images/" + product_id + "2.jpg")
+   }
+
+   if(req.body.image3=='true'){
+    //use only single dot ./public not ../public
+   let delete_image=fs.unlinkSync("./public/product_images/" + product_id + "3.jpg");
+   let image3 = req.files.image3; 
+   let replaced_image=await image3.mv("./public/product_images/" + product_id + "3.jpg")
+   }  
   let updateResult= await product_helpers.update_product(product_id,req.body)
   res.redirect('/admin')
 })
@@ -96,9 +109,11 @@ router.get('/customer_details',async(req,res)=>{
 
 router.get("/admin_product_details",async(req,res)=>{
   let product_details = await user_helpers.get_product_details(req.query.product_id);
-  res.render("admin/admin_product_details",{admin:true,product:product_details})
+  let description=product_details.description;
+  let description_array=description.split("#");
+  res.render("admin/admin_product_details",{admin:true,product:product_details,description_array})
 })
 
 
 module.exports = router;
- 
+   

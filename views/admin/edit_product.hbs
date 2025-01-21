@@ -1,44 +1,113 @@
-<div class="container bg-white">
-    <div class="row" style="justify-content: center;">
-        <div class="col-md-8  bg-white mt-2 text-white rounded shadow">
-            <h2 class="text-center text-xl font-bold text-gray-900 dark:text-white ">Edit Product</h2>
-            <form action="/admin/edit_product?id={{product._id}}" enctype="multipart/form-data" method="POST">
-                <label for="" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
-                <input type="text" name="name" class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" value="{{product.name}}">
-                <label for="" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category</label>
-                <input type="text" name="category" class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" value="{{product.category}}">
-                <label for="" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Color</label>
-                <input type="text" name="color" class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" value="{{product.color}}">
-                <label for="" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
-                <textarea type="text" rows="4" name="description" class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" >
-                 {{product.description}} </textarea>
-                <label for="" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Price(₹)</label>
-                <input type="number" name="price" class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" value="{{product.price}}">
-                <img src="/product_images/{{product._id}}.jpg" alt="" style="width: 100px; heigh:50px;" id="Img"> 
-                <label for="" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Image</label>
-                <input onchange="change_condition()"
-                class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-                id="Image" name="image" type="file">
-                <label for="" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Seller Name</label>
-                <input type="text" name="seller_name" class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" value="{{product.seller_name}}">         
-                <label for="" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Seller Contact Details</label>
-                <input type="tel" name="seller_phone_number" class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" value="{{product.seller_phone_number}}">
-                <br>
-                <input type="email" name="seller_email" class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" value="{{product.seller_email}}">  
-                <label for="" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Seller Address</label>
-                <input type="text" name="seller_address" class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" value="{{product.seller_address}}">
-                <!-- hidden input below is used to pass whether image is changed or not -->
-                <input type="text" value="false" id="condition" name="condition" hidden>
-                 <button type="submit"
-                class="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-gray-700 rounded-lg focus:ring-4 focus:ring-gray-200 dark:focus:ring-primary-900 hover:bg-primary-800">
-                Submit
-            </button>
-            </form>
+<section class="bg-white dark:bg-gray-900">
+  <div class="py-8 px-4 mx-auto max-w-2xl lg:py-16">
+    <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">Edit product</h2>
+    <form action="/admin/edit_product?id={{product._id}}" enctype="multipart/form-data" method="POST">
+      <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
+        <div class="sm:col-span-2">
+          <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Product
+            Name</label>
+          <input type="text" name="name" id="name" value="{{product.name}}"
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+            placeholder="Type product name" required>
         </div>
-    </div>
-</div>
+        <div class="sm:col-span-2">
+          <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+            Category </label>
+          <input type="text" name="category" id="category" value="{{product.category}}"
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+            placeholder="Product category" required>
+        </div>
+        <div class="w-full">
+          <label for="color" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Color</label>
+          <input type="text" name="color" id="color" value="{{product.color}}"
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+            placeholder="Product color" required>
+        </div>
+        <div class="w-full">
+          <label for="price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Price</label>
+          <input type="text" name="price" id="price" value="{{product.price}}"
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+            placeholder="Product price" required>
+        </div>
+        <div class="sm:col-span-2">
+          <label for="description"
+            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
+          <textarea id="description" rows="8" name="description" type="text"
+            class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+            placeholder="">{{product.description}}</textarea>
+        </div>
+        <div style="display: flex;">
+          <img src="/product_images/{{product._id}}1.jpg" class=" max-w-lg rounded-lg mx-1" style="height: 200px; width: 200px;" alt="404">
+          <img src="/product_images/{{product._id}}2.jpg" class=" max-w-lg rounded-lg mx-1" style="height: 200px; width: 200px;"alt="404">
+          <img src="/product_images/{{product._id}}3.jpg" class=" max-w-lg rounded-lg mx-1" style="height: 200px; width: 200px;" alt="404">
+        </div>
+        <div class="sm:col-span-2">
+          <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="image1">
+            Edit images </label>
+          <input onchange="change_condition('1')"
+            class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+            id="image" name="image1" type="file" > 
+          <input onchange="change_condition('2')"
+            class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+            id="image" name="image2" type="file">
+          <input onchange="change_condition('3')"
+            class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+            id="image" name="image3" type="file">
+          <!-- hidden input below is used to pass whether image is changed or not -->
+          <input type="text" value="false" id="image1" name="image1" hidden>
+          <input type="text" value="false" id="image2" name="image2" hidden>
+          <input type="text" value="false" id="image3" name="image3" hidden>
+
+        </div>
+        <div class="sm:col-span-2">
+          <label for="seller_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+            Seller Name</label>
+          <input type="text" name="seller_name" id="seller_name" value="{{product.seller_name}}"
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+            placeholder="Seller Name" required>
+        </div>
+        <div class="sm:col-span-2">
+          <label for="seller" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+            Seller Contact </label>
+          <input type="tel" name="seller_phone_number" id="seller_phone_number" value="{{product.seller_phone_number}}"
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+            placeholder="+91 xxxxx xxxxx" required>
+          <br>
+          <input type="email" name="seller_email" id="seller_email" value="{{product.seller_email}}"
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+            placeholder="name@gmail.com" required>
+        </div>
+        <div class="sm:col-span-2">
+          <label for="seller_address" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+            Seller Address </label>
+          <input type="text" name="seller_address" id="seller_address" value="{{product.seller_address}}"
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+            placeholder="Seller Address" required>
+        </div>
+      </div>
+      <button type="submit"
+        class="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-gray-700 rounded-lg focus:ring-4 focus:ring-gray-200 dark:focus:ring-primary-900 hover:bg-primary-800">
+        Submit
+      </button>
+    </form>
+  </div>
+</section>
+
 <script>
-  function change_condition(){
-    document.getElementById("condition").value="true"
+  function change_condition(image_number) {
+    image_number = parseInt(image_number);
+    switch (image_number) {
+      case 1:
+        document.getElementById("image1").value = 'true';
+        break;
+      case 2:
+        document.getElementById("image2").value = 'true';
+        break;
+      case 3:
+        document.getElementById("image3").value = 'true';
+        break;
+      default:
+        break;
+    }
   }
 </script>

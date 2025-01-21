@@ -123,13 +123,11 @@ router.get("/view_account",verify_login,async (req, res) => {
 
 router.get("/place_order", verify_login, async (req, res) => {
   let user = req.session.user;
-  let condition=req.query.is_single_product;
+  let condition=req.query.is_single_product;//to check whether single product is true orn false
   if(condition=='true'){
-    user_helpers.get_amount_of_one_product(req.query.product_id).then((result)=>{
-      // to make the total.total in hbs(similar to result of total_amount in else{})
-      let total={total:result.Price};
+   let total_amount = await user_helpers.get_amount_of_one_product(req.query.product_id)
+      let total={total:total_amount.price}; // to make the total.total in hbs(similar to result of total_amount in else{})
       res.render('users/place_order',{user,total,condition,product_id:req.query.product_id});
-    })
   }
   else{
     let total = await user_helpers.total_amount(user._id);
@@ -236,10 +234,11 @@ router.get('/product_details',verify_login,(req,res)=>{
   user_helpers.get_product_details(req.query.product_id).then((response)=>{
 
     let description=response.description;
-    let description_array=description.split(".");
+    let description_array=description.split("#");
     res.render('users/product_details',{
+      style:'carousel.css',
       user:req.session.user,
-      product:response,description_array
+      product:response,description_array 
     })
   })
 })
@@ -283,12 +282,12 @@ router.get('/contact_us',verify_login,(req,res)=>{
 router.post('/ai',async(req,res)=>{
   let response=await ai_helper.run(req.body.prompt);
   res.json({resp:response})
-  /*if(req.session.user_logged_in){
+  if(req.session.user_logged_in){
   let response=await ai_helper.run(req.body.prompt);
   res.json({resp:response})
   }else{
     res.redirect('/login');
-  }*/
+  }
 }) 
 
 
@@ -363,18 +362,11 @@ router.post('/change_password',async(req,res)=>{
 
 router.get('/test',verify_login,async(req,res)=>{
 
-  let user_cart = await user_helpers.get_cart_products(req.session.user._id);
-  let total = 0;
-  if (user_cart != []) {
-    total = await user_helpers.total_amount(req.session.user._id);
-  }
-  else {
-    total = 0;
-  }
+ 
   res.render("users/test", {
-    user_cart,
+    style:'carousel.css',
     user:req.session.user,
-    total,
+    
   });
   
 })
