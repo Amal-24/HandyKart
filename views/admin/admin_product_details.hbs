@@ -2,7 +2,34 @@
   <div class="max-w-screen-xl px-4 mx-auto 2xl:px-0">
     <div class="lg:grid lg:grid-cols-2 lg:gap-8 xl:gap-16">
       <div class="shrink-0 max-w-md lg:max-w-lg mx-auto">
-        <img class="w-full rounded" src="/product_images/{{product._id}}1.jpg" alt="" />
+        <div class="slideshow-container ">
+
+          <div class="mySlides fade">
+            <div class="numbertext">1 / 3</div>
+            <img src="/product_images/{{product._id}}1.jpg" class="w-full rounded" style="width:100%" alt="404">
+          </div>
+
+          <div class="mySlides fade">
+            <div class="numbertext">2 / 3</div>
+            <img src="/product_images/{{product._id}}2.jpg" class="w-full rounded" style="width:100%" alt="404">
+
+          </div>
+
+          <div class="mySlides fade">
+            <div class="numbertext">3 / 3</div>
+            <img src="/product_images/{{product._id}}3.jpg" class="w-full rounded" style="width:100%" alt="404">
+
+          </div>
+
+          <a class="prev" onclick="plusSlides(-1)">❮</a>
+          <a class="next" onclick="plusSlides(1)">❯</a>
+          <div style="text-align:center" hidden>
+            <span class="dot" onclick="currentSlide(1)"></span>
+            <span class="dot" onclick="currentSlide(2)"></span>
+            <span class="dot" onclick="currentSlide(3)"></span>
+          </div>
+
+        </div>
       </div>
       <div class="mt-6 sm:mt-8 lg:mt-0">
         <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">
@@ -80,11 +107,45 @@
 
         <h2 class="font-bold">Seller Details</h2>
         <p>{{product.seller_name}}</p>
-        <p>{{product.seller_phone_number}}</p>
-        <p>{{product.seller_email}}</p>
+        <p><a href="tel:{{product.seller_phone_number}}" style="text-decoration: none;">
+            {{product.seller_phone_number}}</a></p>
+        <p><a href="mailto:{{product.seller_email}}" style="text-decoration: none;">
+            {{product.seller_email}}</a></p>
         <p>{{product.seller_address}}</p>
 
       </div>
     </div>
   </div>
 </section>
+
+
+
+<script>
+  //carousel control codes
+  let slideIndex = 1;
+  showSlides(slideIndex);
+
+  function plusSlides(n) {
+    showSlides(slideIndex += n);
+  }
+
+  function currentSlide(n) {
+    showSlides(slideIndex = n);
+  }
+
+  function showSlides(n) {
+    let i;
+    let slides = document.getElementsByClassName("mySlides");
+    let dots = document.getElementsByClassName("dot");
+    if (n > slides.length) { slideIndex = 1 }
+    if (n < 1) { slideIndex = slides.length }
+    for (i = 0; i < slides.length; i++) {
+      slides[i].style.display = "none";
+    }
+    for (i = 0; i < dots.length; i++) {
+      dots[i].className = dots[i].className.replace(" active", "");
+    }
+    slides[slideIndex - 1].style.display = "block";
+    dots[slideIndex - 1].className += " active";
+  }
+</script>

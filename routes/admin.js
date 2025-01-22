@@ -111,7 +111,8 @@ router.get("/admin_product_details",async(req,res)=>{
   let product_details = await user_helpers.get_product_details(req.query.product_id);
   let description=product_details.description;
   let description_array=description.split("#");
-  res.render("admin/admin_product_details",{admin:true,product:product_details,description_array})
+  res.render("admin/admin_product_details",{admin:true,product:product_details,description_array,
+    style:'carousel.css'})
 })
 
 

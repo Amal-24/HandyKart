@@ -282,12 +282,6 @@ router.get('/contact_us',verify_login,(req,res)=>{
 router.post('/ai',async(req,res)=>{
   let response=await ai_helper.run(req.body.prompt);
   res.json({resp:response})
-  if(req.session.user_logged_in){
-  let response=await ai_helper.run(req.body.prompt);
-  res.json({resp:response})
-  }else{
-    res.redirect('/login');
-  }
 }) 
 
 
