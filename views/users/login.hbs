@@ -1,8 +1,8 @@
 <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
   <div class="sm:mx-auto sm:w-full sm:max-w-sm">
     <img
-      class="mx-auto h-10 w-auto rounded"
-      src="images/website_icon.jpeg"
+      class="mx-auto h-20 w-auto rounded"
+      src="images/website_icon.jpg"
       alt="Your Company"
     />
     <h2
@@ -13,7 +13,7 @@
     <form class="space-y-6" action="/login" method="POST">
       {{#if login_err}}
     <p class="error" style="color:red;">! {{login_err}}</p>
-  {{/if}}
+      {{/if}}
       <div>
         <label
           for="email"
@@ -30,7 +30,7 @@
           />
         </div>
       </div>
-
+      
       <div>
         <div class="flex items-center justify-between">
           <label

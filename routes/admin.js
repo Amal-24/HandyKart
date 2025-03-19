@@ -14,8 +14,8 @@ router.get("/", async (req, res, next)=> {
 router.get("/add_product", function (req, res, next) {
   res.render("admin/add_product", { admin: true });
 });
-
-
+  
+ 
 router.post("/add_product", async (req, res, next)=> {
   req.body.price=parseInt(req.body.price)
   let id=await product_helpers.add_product(req.body);

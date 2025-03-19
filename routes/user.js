@@ -77,8 +77,8 @@ router.post("/signup", (req, res, next) => {
 router.get('/view_products',verify_login,async(req,res)=>{
   let products= await product_helpers.view_product()
   res.render("users/view_products", {
-    admin: false,
-    products,
+    admin: false, 
+    products, 
     user:req.session.user,
   }); 
 })
