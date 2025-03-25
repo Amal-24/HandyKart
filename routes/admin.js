@@ -19,12 +19,18 @@ router.get("/add_product", function (req, res, next) {
 router.post("/add_product", async (req, res, next)=> {
   req.body.price=parseInt(req.body.price)
   let id=await product_helpers.add_product(req.body);
+
+  if(req.files.image1){
   let image1 = req.files.image1;
-  let image1_upload=await image1.mv("./public/product_images/" + id + "1.jpg")
+  let image1_upload=await image1.mv("./public/product_images/" + id + "1.jpg")}
+
+  if(req.files.image2){
   let image2 = req.files.image2;
-  let image2_upload=await image2.mv("./public/product_images/" + id + "2.jpg")
+  let image2_upload=await image2.mv("./public/product_images/" + id + "2.jpg")}
+
+  if(req.files.image3){
   let image3 = req.files.image3;
-  let image3_upload=await image3.mv("./public/product_images/" + id + "3.jpg")
+  let image3_upload=await image3.mv("./public/product_images/" + id + "3.jpg")}
 
   res.redirect('/admin');
     });
