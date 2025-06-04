@@ -22,7 +22,7 @@ const verify_login = async(req, res, next) => {
   }
 };
 
-router.get("/",verify_login, async (req, res, next)=> {
+router.get("/", async (req, res, next)=> {
   let user = req.session.user; 
   let products= await product_helpers.view_product()
     res.render("users/home", {
